@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bone: #000000;
+  --color-bone-deep: #0e0e0e;
+  --color-ink: #ffffff;
+  --color-ink-soft: #ebebeb;
+  --color-brass: #d4a44a;
+  --color-brass-bright: #f0c267;
+  --color-rust: #e26a4c;
+  --color-stone: #a8a297;
+
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-serif: "Instrument Serif", "Georgia", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-body: "Inter Tight", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-bone);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-bone);
+  }
+}
+
+/* paper grain noise */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Display headline tweaks */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+/* Tile hover lift */
+.tile {
+  transition: transform 380ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tile:hover { transform: translateY(-4px); }
+
+/* Ticking second hand */
+@keyframes tick {
+  0%, 8%   { transform: rotate(0deg); }
+  10%, 18% { transform: rotate(6deg); }
+  20%, 28% { transform: rotate(12deg); }
+  30%, 38% { transform: rotate(18deg); }
+  40%, 48% { transform: rotate(24deg); }
+  50%, 58% { transform: rotate(30deg); }
+  60%, 68% { transform: rotate(36deg); }
+  70%, 78% { transform: rotate(42deg); }
+  80%, 88% { transform: rotate(48deg); }
+  90%, 98% { transform: rotate(54deg); }
+  100%     { transform: rotate(60deg); }
+}
+.tick { animation: tick 6s steps(1) infinite; transform-origin: 50% 100%; }
+
+/* Slow rotation for decorative dial */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 60s linear infinite; }
+
+/* Reveal on load */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.rise-1 { animation-delay: 60ms; }
+.rise-2 { animation-delay: 180ms; }
+.rise-3 { animation-delay: 320ms; }
+.rise-4 { animation-delay: 480ms; }
+
+/* Underline on hover for links */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 350ms ease;
+}
+.link-underline:hover { background-size: 100% 1px; }
+
+/* FAQ details marker */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-plus::before { content: "−"; }
+.faq-plus::before { content: "+"; }
