@@ -26,11 +26,14 @@ export default function MerchSpotlight() {
     <section ref={ref} className="px-6 md:px-10 py-20 md:py-28">
       <div className="mx-auto max-w-[1600px]">
         <div
-          className={`tag text-[var(--color-stone)] mb-10 md:mb-14 transition-all duration-700 ease-out ${
+          className={`mb-10 md:mb-14 transition-all duration-700 ease-out ${
             inView ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
           }`}
         >
-          [002] What we make
+          <span className="inline-flex items-center gap-2.5 bg-black text-white border border-white/20 px-4 py-2 tag uppercase tracking-[0.18em] shadow-[0_0_0_1px_rgba(0,0,0,0.5)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brass)]" />
+            [002] · What we make
+          </span>
         </div>
 
         <a
@@ -46,25 +49,24 @@ export default function MerchSpotlight() {
             transitionDelay: inView ? "700ms" : "0ms",
           }}
         >
-          {/* Backdrop — light blue gradient placeholder. Swap with bg-[url('/path.jpg')] bg-cover bg-center when you have art. */}
+          {/* Backdrop — drop a JPG/PNG at /public/merch-hero.jpg to use as the background.
+             A dark gradient sits behind so the section still reads if the image is missing. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-br from-[#dbeafe] via-[#7dd3fc] to-[#38bdf8]"
+            className="absolute inset-0 bg-gradient-to-br from-[#1a1815] via-[#0e0d0b] to-[#3a3a2a]"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 opacity-60 mix-blend-screen"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55), transparent 55%), radial-gradient(circle at 80% 70%, rgba(186,230,253,0.6), transparent 55%)",
-            }}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: "url('/merch-hero.jpg')" }}
           />
+          {/* Soft vignette over the photo so the white circle stays the focal point */}
           <div
             aria-hidden="true"
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse at center, transparent 35%, rgba(14,165,233,0.18) 100%)",
+                "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.55) 100%)",
             }}
           />
 

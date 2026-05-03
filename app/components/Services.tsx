@@ -286,10 +286,6 @@ export default function Services() {
               Done in-house.
             </h2>
           </div>
-          <p className="serif-italic text-lg md:text-xl text-[var(--color-stone)] max-w-[36ch] md:text-right md:self-end">
-            Four disciplines under one roof. No vendors, no excuses, no week-long
-            email threads.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--color-ink)]/15 border border-[var(--color-ink)]/15">

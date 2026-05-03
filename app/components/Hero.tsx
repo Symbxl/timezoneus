@@ -4,10 +4,10 @@ export default function Hero() {
       id="top"
       className="relative min-h-[78vh] md:min-h-[88vh] flex items-end pt-32 md:pt-44 pb-10 md:pb-16 px-6 md:px-10 overflow-hidden"
     >
-      <div className="mx-auto max-w-[1600px] relative w-full">
-        {/* Sprinkled white accents that fill the negative space */}
-        <HeroAccents />
+      {/* Sprinkled white accents — absolute over the full section, behind everything */}
+      <HeroAccents />
 
+      <div className="mx-auto max-w-[1600px] relative w-full">
         {/* Decorative dial */}
         <div className="absolute -top-8 right-0 md:right-10 w-[260px] h-[260px] md:w-[420px] md:h-[420px] opacity-90 pointer-events-none">
           <svg viewBox="0 0 200 200" className="w-full h-full spin-slow">
