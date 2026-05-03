@@ -1,7 +1,47 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+const SPECIALS = ["wave", "spin", "stretch", "jitter"] as const;
+type Special = (typeof SPECIALS)[number];
+
 export default function Hero() {
+  const [active, setActive] = useState<Special | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    let clearActive: ReturnType<typeof setTimeout> | undefined;
+
+    const schedule = () => {
+      // Wait 7–14s between specials so they feel like a surprise, not a tic.
+      const wait = 7000 + Math.random() * 7000;
+      const t = setTimeout(() => {
+        if (cancelled) return;
+        const next = SPECIALS[Math.floor(Math.random() * SPECIALS.length)];
+        setActive(next);
+        // Clear the class after the animation finishes (~1.5–2s + max stagger).
+        clearActive = setTimeout(() => {
+          if (cancelled) return;
+          setActive(null);
+          schedule();
+        }, 2400);
+      }, wait);
+      // Allow cancellation
+      clearActive = t;
+    };
+
+    // First special fires ~5s after page load (after merge animation settles).
+    const first = setTimeout(schedule, 5000);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(first);
+      if (clearActive) clearTimeout(clearActive);
+    };
+  }, []);
+
   return (
     <section
-      id="top"
       className="relative min-h-[78vh] md:min-h-[88vh] flex items-end pt-32 md:pt-44 pb-10 md:pb-16 px-6 md:px-10 overflow-hidden"
     >
       {/* Sprinkled white accents — absolute over the full section, behind everything */}
@@ -60,8 +100,13 @@ export default function Hero() {
             {"TIME".split("").map((ch, i) => (
               <span
                 key={`t-${i}`}
-                className="hero-letter"
-                style={{ animationDelay: `${1600 + i * 180}ms` }}
+                className={`hero-letter ${active ? `special-${active}` : ""}`}
+                style={
+                  {
+                    "--float-delay": `${1600 + i * 180}ms`,
+                    "--special-delay": `${i * 90}ms`,
+                  } as React.CSSProperties
+                }
               >
                 {ch}
               </span>
@@ -71,8 +116,13 @@ export default function Hero() {
             {"ZONE".split("").map((ch, i) => (
               <span
                 key={`z-${i}`}
-                className="hero-letter"
-                style={{ animationDelay: `${1600 + (i + 4) * 180}ms` }}
+                className={`hero-letter ${active ? `special-${active}` : ""}`}
+                style={
+                  {
+                    "--float-delay": `${1600 + (i + 4) * 180}ms`,
+                    "--special-delay": `${(i + 4) * 90}ms`,
+                  } as React.CSSProperties
+                }
               >
                 {ch}
               </span>

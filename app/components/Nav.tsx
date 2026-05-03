@@ -207,7 +207,7 @@ export default function Nav() {
       <div className="relative mx-auto max-w-[1600px] px-6 md:px-10 h-24 md:h-28 flex items-center justify-between">
         {/* LEFT — mobile logo OR desktop left nav */}
         <div className="flex items-center gap-7">
-          <a href="/#top" className="xl:hidden flex items-center gap-3 text-white">
+          <a href="/" className="xl:hidden flex items-center gap-3 text-white">
             <Logo />
           </a>
           <nav className="hidden xl:flex items-center gap-7 tag text-white">
@@ -225,7 +225,7 @@ export default function Nav() {
 
         {/* CENTER — desktop logo, absolutely positioned */}
         <a
-          href="/#top"
+          href="/"
           className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-3 text-white"
         >
           <Logo />

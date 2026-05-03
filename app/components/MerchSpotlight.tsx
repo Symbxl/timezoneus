@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const HEADLINE_WORDS = ["We", "make", "the", "merch", "you", "want."];
+
 export default function MerchSpotlight() {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
@@ -26,7 +28,7 @@ export default function MerchSpotlight() {
     <section ref={ref} className="px-6 md:px-10 py-20 md:py-28">
       <div className="mx-auto max-w-[1600px]">
         <div
-          className={`mb-10 md:mb-14 transition-all duration-700 ease-out ${
+          className={`mb-6 md:mb-8 transition-all duration-700 ease-out ${
             inView ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
           }`}
         >
@@ -35,6 +37,25 @@ export default function MerchSpotlight() {
             [002] · What we make
           </span>
         </div>
+
+        <h2 className="display text-7xl md:text-[10vw] lg:text-[8.5rem] xl:text-[10rem] leading-[0.86] tracking-[-0.02em] mb-10 md:mb-14 max-w-[18ch] overflow-hidden">
+          {HEADLINE_WORDS.map((w, i) => (
+            <span
+              key={`${w}-${i}`}
+              className={`inline-block mr-[0.22em] transition-all ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                inView
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-[120%]"
+              }`}
+              style={{
+                transitionDuration: "1000ms",
+                transitionDelay: inView ? `${150 + i * 90}ms` : "0ms",
+              }}
+            >
+              {w}
+            </span>
+          ))}
+        </h2>
 
         <a
           href="#custom-sourcing"
