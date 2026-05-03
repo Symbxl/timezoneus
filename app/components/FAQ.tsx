@@ -45,26 +45,49 @@ export default function FAQ() {
               <br />
               people
               <br />
-              <span className="serif-italic lowercase">always ask.</span>
+              ask.
             </h2>
+            <p className="mt-6 text-base md:text-lg text-[var(--color-stone)] max-w-[34ch] leading-snug">
+              Couldn&apos;t find your answer? Drop us a line — real humans
+              reply within 48 hours.
+            </p>
           </div>
+
           <div className="md:col-span-8">
-            {faqs.map((f, i) => (
-              <details
-                key={i}
-                className="group border-b border-[var(--color-ink)]/20 py-6"
-              >
-                <summary className="flex items-baseline justify-between gap-6">
-                  <span className="display text-2xl md:text-3xl group-open:text-[var(--color-rust)] transition-colors">
-                    {f.q}
-                  </span>
-                  <span className="faq-plus tag text-[var(--color-stone)] text-2xl shrink-0" />
-                </summary>
-                <p className="serif-italic text-xl md:text-2xl mt-5 max-w-[60ch] text-[var(--color-ink-soft)]">
-                  {f.a}
-                </p>
-              </details>
-            ))}
+            {faqs.map((f, i) => {
+              const num = String(i + 1).padStart(2, "0");
+              return (
+                <details
+                  key={i}
+                  className="group relative border-t border-[var(--color-ink)]/15 last:border-b py-6 md:py-7 transition-colors hover:bg-[var(--color-bone-deep)]/40 open:bg-[var(--color-bone-deep)]/40"
+                >
+                  <summary className="flex items-center gap-4 md:gap-6">
+                    <span className="tag text-[var(--color-stone)] w-8 shrink-0 hidden sm:inline">
+                      {num}
+                    </span>
+                    <span className="display text-2xl md:text-[28px] lg:text-[32px] leading-tight flex-1 text-[var(--color-ink)] group-open:text-[var(--color-brass)] transition-colors">
+                      {f.q}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="relative w-6 h-6 shrink-0 ml-auto"
+                    >
+                      <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-[var(--color-stone)] group-open:bg-[var(--color-brass)] transition-colors" />
+                      <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[2px] bg-[var(--color-stone)] group-open:bg-[var(--color-brass)] group-open:rotate-90 transition-all duration-300 origin-center" />
+                    </span>
+                  </summary>
+                  <div className="mt-5 ml-0 sm:ml-12 max-w-[60ch]">
+                    <p className="text-lg md:text-xl leading-snug text-[var(--color-ink-soft)]">
+                      {f.a}
+                    </p>
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--color-brass)] origin-top scale-y-0 group-open:scale-y-100 transition-transform duration-500 ease-out"
+                  />
+                </details>
+              );
+            })}
           </div>
         </div>
       </div>

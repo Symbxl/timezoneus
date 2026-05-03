@@ -58,42 +58,69 @@ const series: Series[] = [
   },
 ];
 
-function Tile({ s }: { s: Series }) {
+function Tile({ s, index }: { s: Series; index: number }) {
+  const num = String(index + 1).padStart(2, "0");
   return (
     <a
       href={s.href}
       target="_blank"
       rel="noreferrer"
-      className="tile group relative block overflow-hidden bg-[#f3eee4] text-[#0e0d0b] aspect-[3/4]"
+      className="tile group relative block overflow-hidden bg-[#0a0a0a] text-white border border-white/10 hover:border-[#d4a44a]/70 transition-all duration-500"
     >
-      <div className="flex flex-col h-full">
-        <div className="relative flex-1 flex items-center justify-center bg-gradient-to-b from-[#f3eee4] to-[#ebe3d3] overflow-hidden">
+      <div className="flex flex-row items-stretch h-full min-h-[220px] md:min-h-[280px]">
+        {/* Image column — photo fills the box edge-to-edge */}
+        <div className="relative w-[42%] sm:w-[40%] shrink-0 overflow-hidden">
           <Image
             src={s.image}
             alt={s.name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-contain p-4 md:p-6 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            sizes="(max-width: 1024px) 40vw, 22vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
           />
         </div>
-        <div className="px-5 md:px-6 pt-4 pb-5 md:pb-6 border-t border-[#0e0d0b]/10">
-          <div className="flex items-center justify-between gap-3">
-            <div
-              className="display text-xl md:text-2xl leading-tight"
-              style={{ color: "#0e0d0b" }}
-            >
-              {s.name}
-            </div>
-            <span
-              aria-hidden="true"
-              className="tag text-[#6b655a] group-hover:text-[#b8893a] transition-colors shrink-0"
-            >
-              ↗
+
+        {/* Content column — black with editorial typography */}
+        <div className="relative flex-1 flex flex-col justify-between p-6 md:p-8 overflow-hidden">
+          <div className="flex items-start justify-between gap-3">
+            <span className="display text-3xl md:text-4xl leading-none text-white/35 group-hover:text-[#d4a44a] transition-colors">
+              {num}
+            </span>
+            <span className="tag text-white/45 uppercase tracking-[0.18em]">
+              Watch series
             </span>
           </div>
-          <div className="serif-italic mt-1.5 text-sm md:text-[15px] text-[#6b655a] max-w-[34ch]">
-            {s.blurb}
+
+          <div className="mt-auto pt-6">
+            <h3 className="display text-2xl md:text-[28px] lg:text-[32px] leading-[0.95] text-white">
+              {s.name}
+            </h3>
+            <p className="serif-italic mt-2 text-[15px] md:text-base text-white/55 max-w-[36ch] leading-snug">
+              {s.blurb}
+            </p>
+
+            <div className="mt-5 md:mt-6 flex items-center gap-3 tag text-white/60 group-hover:text-[#d4a44a] transition-colors">
+              <span>View series</span>
+              <span
+                aria-hidden="true"
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </div>
           </div>
+
+          {/* Brass accent bar — slides down the right edge of the text panel on hover */}
+          <span
+            aria-hidden="true"
+            className="absolute right-0 top-0 bottom-0 w-[2px] bg-[#d4a44a] origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out"
+          />
+          {/* Faint number watermark in the bottom-right on hover */}
+          <span
+            aria-hidden="true"
+            className="absolute -right-3 -bottom-12 display text-[12rem] leading-none text-[#d4a44a]/0 group-hover:text-[#d4a44a]/[0.06] transition-colors duration-700 select-none pointer-events-none"
+          >
+            {num}
+          </span>
         </div>
       </div>
     </a>
@@ -107,14 +134,10 @@ export default function WorkGrid() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
           <div>
             <div className="tag text-[var(--color-stone)] mb-4">
-              [001] Watch series
+              [001] Watch series · 08 collections
             </div>
             <h2 className="display text-6xl md:text-8xl lg:text-9xl leading-[0.86]">
               Built for brands
-              <br />
-              <span className="serif-italic lowercase">
-                that take time seriously.
-              </span>
             </h2>
           </div>
           <a
@@ -125,9 +148,9 @@ export default function WorkGrid() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-          {series.map((s) => (
-            <Tile key={s.name} s={s} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
+          {series.map((s, i) => (
+            <Tile key={s.name} s={s} index={i} />
           ))}
         </div>
       </div>

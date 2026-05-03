@@ -1,5 +1,22 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const neueMontreal = localFont({
+  src: "../public/fonts/PPNeueMontreal-Regular.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const gtAmericaMono = localFont({
+  src: "../public/fonts/GTAmericaMono-Regular.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-mono-zero",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Time Zone US — Custom Watches That Mean Business.",
@@ -19,19 +36,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      className={`${neueMontreal.variable} ${gtAmericaMono.variable}`}
+    >
       <body className="grain">{children}</body>
     </html>
   );

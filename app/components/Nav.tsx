@@ -1,37 +1,166 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { NAV_PRODUCT_CATEGORIES } from "../products/products-data";
 
-const SECTIONS = [
-  { label: "Custom Sourcing", href: "#custom-sourcing" },
-  { label: "Custom Packaging", href: "#custom-packaging" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "General Info", href: "#general-info" },
-  { label: "Prop 65", href: "#prop-65" },
-  { label: "Distributor Tools", href: "#distributor-tools" },
+type MenuItem = { label: string; href: string; external?: boolean };
+type Menu = {
+  key: string;
+  label: string;
+  href: string;
+  align: "left" | "right";
+  items: MenuItem[];
+};
+
+const COLLECTIONS: MenuItem[] = [
+  { label: "Executive Series", href: "https://www.timezoneus.com/category/executive-series", external: true },
+  { label: "Digi Clips", href: "https://www.timezoneus.com/category/digi-clipz", external: true },
+  { label: "Rectangle Series", href: "https://www.timezoneus.com/category/rectangle-series", external: true },
+  { label: "Sapphire Series", href: "https://www.timezoneus.com/category/sapphire-series", external: true },
+  { label: "Swiss Series", href: "https://www.timezoneus.com/category/swiss-series", external: true },
+  { label: "Tahoe Series", href: "https://www.timezoneus.com/category/tahoe-series", external: true },
+  { label: "Union Made Watches", href: "https://www.timezoneus.com/category/union-made-watches", external: true },
+  { label: "Value & Sport Watches", href: "https://www.timezoneus.com/category/value-sport-watches", external: true },
 ];
+
+const MENUS: Menu[] = [
+  {
+    key: "products",
+    label: "Products",
+    href: "/products",
+    align: "left",
+    items: [
+      { label: "All Products", href: "/products" },
+      ...NAV_PRODUCT_CATEGORIES.map((c) => ({
+        label: c.label,
+        href: `/products?category=${c.key}`,
+      })),
+    ],
+  },
+  {
+    key: "collections",
+    label: "Collections",
+    href: "/products?category=watches",
+    align: "left",
+    items: [
+      { label: "All Watches", href: "/products?category=watches" },
+      ...COLLECTIONS,
+    ],
+  },
+  {
+    key: "sales",
+    label: "Sales Tools",
+    href: "#distributor-tools",
+    align: "right",
+    items: [
+      { label: "Distributor Tools", href: "#distributor-tools" },
+      { label: "Case Studies", href: "#case-studies" },
+      { label: "Prop 65", href: "#prop-65" },
+    ],
+  },
+  {
+    key: "info",
+    label: "General Info",
+    href: "#general-info",
+    align: "right",
+    items: [
+      { label: "About / General Info", href: "#general-info" },
+      { label: "Custom Sourcing", href: "#custom-sourcing" },
+      { label: "Custom Packaging", href: "#custom-packaging" },
+      { label: "Contact", href: "/#contact" },
+    ],
+  },
+];
+
+const LEFT_MENUS = MENUS.filter((m) => m.align === "left");
+const RIGHT_MENUS = MENUS.filter((m) => m.align === "right");
+
+function Logo() {
+  return (
+    <Image
+      src="/logo.png"
+      alt="Time Zone — Made to Order Promo Since 1976"
+      width={240}
+      height={116}
+      priority
+      className="h-16 md:h-20 w-auto"
+    />
+  );
+}
+
+function DesktopMenu({
+  menu,
+  open,
+  onOpen,
+  onClose,
+}: {
+  menu: Menu;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="relative"
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+    >
+      <a
+        href={menu.href}
+        onClick={onClose}
+        aria-haspopup="true"
+        aria-expanded={open}
+        className="link-underline flex items-center gap-1.5 text-white"
+      >
+        {menu.label}
+        <span
+          aria-hidden="true"
+          className={`inline-block transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
+          ▾
+        </span>
+      </a>
+      {open && (
+        <div
+          role="menu"
+          className={`absolute top-full pt-3 ${
+            menu.align === "right" ? "right-0" : "left-0"
+          }`}
+        >
+          <div className="min-w-[240px] bg-[var(--color-bone)] border border-[var(--color-ink)]/15 shadow-lg py-2">
+            {menu.items.map((item, i) => (
+              <a
+                key={item.href + i}
+                href={item.href}
+                onClick={onClose}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noreferrer" : undefined}
+                role="menuitem"
+                className={`block px-4 py-2 tag whitespace-nowrap hover:bg-[var(--color-bone-deep)] hover:text-[var(--color-brass)] transition-colors ${
+                  i === 0 ? "border-b border-[var(--color-ink)]/10" : ""
+                }`}
+              >
+                {item.label}
+                {item.external ? (
+                  <span aria-hidden="true" className="ml-1 opacity-50">↗</span>
+                ) : null}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [time, setTime] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
-  const productsRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (
-        productsRef.current &&
-        !productsRef.current.contains(e.target as Node)
-      ) {
-        setProductsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -44,7 +173,7 @@ export default function Nav() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setMobileOpen(false);
-        setProductsOpen(false);
+        setOpenMenu(null);
       }
     };
     document.addEventListener("keydown", onKey);
@@ -67,241 +196,139 @@ export default function Nav() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    const update = () => {
-      const d = new Date();
-      const opts: Intl.DateTimeFormatOptions = {
-        timeZone: "America/New_York",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      };
-      setTime(d.toLocaleTimeString("en-US", opts) + " EST");
-    };
-    update();
-    const id = setInterval(update, 1000 * 30);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 text-white transition-all duration-300 ${
         scrolled
           ? "bg-[var(--color-bone)]/85 backdrop-blur-md border-b border-[var(--color-ink)]/10"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-[1600px] px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
-        <a href="/#top" className="flex items-center gap-3">
-          {/* Watch dial mark */}
-          <svg
-            viewBox="0 0 40 40"
-            className="w-9 h-9"
-            aria-hidden="true"
-          >
-            <circle
-              cx="20"
-              cy="20"
-              r="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <circle cx="20" cy="20" r="1.6" fill="currentColor" />
-            <line
-              x1="20"
-              y1="20"
-              x2="20"
-              y2="9"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <line
-              x1="20"
-              y1="20"
-              x2="28"
-              y2="22"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            {/* 12 / 3 / 6 / 9 ticks */}
-            {[
-              [20, 4, 20, 7],
-              [33, 20, 36, 20],
-              [20, 33, 20, 36],
-              [4, 20, 7, 20],
-            ].map(([x1, y1, x2, y2], i) => (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
+      <div className="relative mx-auto max-w-[1600px] px-6 md:px-10 h-24 md:h-28 flex items-center justify-between">
+        {/* LEFT — mobile logo OR desktop left nav */}
+        <div className="flex items-center gap-7">
+          <a href="/#top" className="xl:hidden flex items-center gap-3 text-white">
+            <Logo />
+          </a>
+          <nav className="hidden xl:flex items-center gap-7 tag text-white">
+            {LEFT_MENUS.map((m) => (
+              <DesktopMenu
+                key={m.key}
+                menu={m}
+                open={openMenu === m.key}
+                onOpen={() => setOpenMenu(m.key)}
+                onClose={() => setOpenMenu(null)}
               />
             ))}
-          </svg>
-          <span className="display text-2xl md:text-[28px] leading-none">
-            Time Zone <span className="text-[var(--color-brass)]">US</span>
-          </span>
+          </nav>
+        </div>
+
+        {/* CENTER — desktop logo, absolutely positioned */}
+        <a
+          href="/#top"
+          className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-3 text-white"
+        >
+          <Logo />
         </a>
 
-        <nav className="hidden xl:flex items-center gap-7 tag">
-          <div
-            className="relative"
-            ref={productsRef}
-            onMouseEnter={() => setProductsOpen(true)}
-            onMouseLeave={() => setProductsOpen(false)}
-          >
-            <a
-              href="/products"
-              onClick={() => setProductsOpen(false)}
-              aria-haspopup="true"
-              aria-expanded={productsOpen}
-              className="link-underline flex items-center gap-1.5"
+        {/* RIGHT — desktop right nav + controls */}
+        <div className="flex items-center gap-7">
+          <nav className="hidden xl:flex items-center gap-7 tag text-white">
+            {RIGHT_MENUS.map((m) => (
+              <DesktopMenu
+                key={m.key}
+                menu={m}
+                open={openMenu === m.key}
+                onOpen={() => setOpenMenu(m.key)}
+                onClose={() => setOpenMenu(null)}
+              />
+            ))}
+          </nav>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-expanded={mobileOpen}
+              aria-label="Toggle menu"
+              className="xl:hidden inline-flex items-center justify-center w-10 h-10 -mr-2 text-white"
             >
-              Our Products
-              <span
-                aria-hidden="true"
-                className={`inline-block transition-transform duration-200 ${
-                  productsOpen ? "rotate-180" : ""
-                }`}
-              >
-                ▾
+              <span className="relative block w-6 h-4" aria-hidden="true">
+                <span
+                  className={`absolute left-0 right-0 top-0 h-0.5 bg-current transition-transform duration-200 ${
+                    mobileOpen ? "translate-y-[7px] rotate-45" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-current transition-opacity duration-200 ${
+                    mobileOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 right-0 bottom-0 h-0.5 bg-current transition-transform duration-200 ${
+                    mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
+                  }`}
+                />
               </span>
-            </a>
-            {productsOpen && (
-              <div
-                role="menu"
-                className="absolute left-0 top-full pt-3"
-              >
-                <div className="min-w-[260px] bg-[var(--color-bone)] border border-[var(--color-ink)]/15 shadow-lg py-2">
-                  <a
-                    href="/products"
-                    onClick={() => setProductsOpen(false)}
-                    role="menuitem"
-                    className="block px-4 py-2 tag border-b border-[var(--color-ink)]/10 hover:bg-[var(--color-bone-deep)] hover:text-[var(--color-brass)] transition-colors"
-                  >
-                    All Products →
-                  </a>
-                  {NAV_PRODUCT_CATEGORIES.map((c) => (
-                    <a
-                      key={c.key}
-                      href={`/products?category=${c.key}`}
-                      role="menuitem"
-                      onClick={() => setProductsOpen(false)}
-                      className="block px-4 py-2 tag hover:bg-[var(--color-bone-deep)] hover:text-[var(--color-brass)] transition-colors"
-                    >
-                      {c.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
+            </button>
           </div>
-          {SECTIONS.map((s) => (
-            <a key={s.href} href={s.href} className="link-underline">
-              {s.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <span className="hidden lg:inline tag text-[var(--color-stone)]">
-            {time}
-          </span>
-          <a
-            href="/#contact"
-            className="hidden sm:inline-block tag bg-[var(--color-ink)] text-[var(--color-bone)] px-4 py-2 hover:bg-[var(--color-brass)] hover:text-[var(--color-ink)] transition-colors"
-          >
-            Get a quote →
-          </a>
-          <button
-            type="button"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-expanded={mobileOpen}
-            aria-label="Toggle menu"
-            className="xl:hidden inline-flex items-center justify-center w-10 h-10 -mr-2"
-          >
-            <span className="relative block w-6 h-4" aria-hidden="true">
-              <span
-                className={`absolute left-0 right-0 top-0 h-0.5 bg-current transition-transform duration-200 ${
-                  mobileOpen ? "translate-y-[7px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-current transition-opacity duration-200 ${
-                  mobileOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 right-0 bottom-0 h-0.5 bg-current transition-transform duration-200 ${
-                  mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
-                }`}
-              />
-            </span>
-          </button>
         </div>
       </div>
 
       {mobileOpen && (
         <div
           id="mobile-menu"
-          className="xl:hidden bg-[var(--color-bone)] border-t border-[var(--color-ink)]/10 max-h-[calc(100vh-4rem)] md:max-h-[calc(100vh-5rem)] overflow-y-auto"
+          className="xl:hidden bg-[var(--color-bone)] border-t border-[var(--color-ink)]/10 max-h-[calc(100vh-6rem)] md:max-h-[calc(100vh-7rem)] overflow-y-auto"
         >
-          <nav className="px-6 md:px-10 py-6 flex flex-col gap-1 tag">
-            <div className="flex items-stretch border-b border-[var(--color-ink)]/10">
-              <a
-                href="/products"
-                onClick={() => setMobileOpen(false)}
-                className="flex-1 py-3 hover:text-[var(--color-brass)] transition-colors"
-              >
-                Our Products
-              </a>
-              <button
-                type="button"
-                onClick={() => setMobileProductsOpen((v) => !v)}
-                aria-expanded={mobileProductsOpen}
-                aria-label="Toggle product categories"
-                className="px-3"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`inline-block transition-transform duration-200 ${
-                    mobileProductsOpen ? "rotate-180" : ""
-                  }`}
-                >
-                  ▾
-                </span>
-              </button>
-            </div>
-            {mobileProductsOpen && (
-              <div className="flex flex-col pl-4 border-b border-[var(--color-ink)]/10">
-                {NAV_PRODUCT_CATEGORIES.map((c) => (
+          <nav className="px-6 md:px-10 py-6 flex flex-col gap-1 tag text-white">
+            {MENUS.map((m) => (
+              <div key={m.key}>
+                <div className="flex items-stretch border-b border-[var(--color-ink)]/10">
                   <a
-                    key={c.key}
-                    href={`/products?category=${c.key}`}
+                    href={m.href}
                     onClick={() => setMobileOpen(false)}
-                    className="py-2.5 text-[var(--color-stone)] hover:text-[var(--color-brass)] transition-colors"
+                    className="flex-1 py-3 hover:text-[var(--color-brass)] transition-colors"
                   >
-                    {c.label}
+                    {m.label}
                   </a>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMobileExpanded((cur) => (cur === m.key ? null : m.key))
+                    }
+                    aria-expanded={mobileExpanded === m.key}
+                    aria-label={`Toggle ${m.label}`}
+                    className="px-3"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`inline-block transition-transform duration-200 ${
+                        mobileExpanded === m.key ? "rotate-180" : ""
+                      }`}
+                    >
+                      ▾
+                    </span>
+                  </button>
+                </div>
+                {mobileExpanded === m.key && (
+                  <div className="flex flex-col pl-4 border-b border-[var(--color-ink)]/10">
+                    {m.items.map((item, i) => (
+                      <a
+                        key={item.href + i}
+                        href={item.href}
+                        target={item.external ? "_blank" : undefined}
+                        rel={item.external ? "noreferrer" : undefined}
+                        onClick={() => setMobileOpen(false)}
+                        className="py-2.5 text-[var(--color-stone)] hover:text-[var(--color-brass)] transition-colors"
+                      >
+                        {item.label}
+                        {item.external ? (
+                          <span aria-hidden="true" className="ml-1 opacity-50">↗</span>
+                        ) : null}
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-            {SECTIONS.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                onClick={() => setMobileOpen(false)}
-                className="py-3 border-b border-[var(--color-ink)]/10 hover:text-[var(--color-brass)] transition-colors"
-              >
-                {s.label}
-              </a>
             ))}
             <a
               href="/#contact"

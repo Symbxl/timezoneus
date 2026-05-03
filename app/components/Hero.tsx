@@ -2,9 +2,12 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-10 overflow-hidden"
+      className="relative min-h-[78vh] md:min-h-[88vh] flex items-end pt-32 md:pt-44 pb-10 md:pb-16 px-6 md:px-10 overflow-hidden"
     >
-      <div className="mx-auto max-w-[1600px] relative">
+      <div className="mx-auto max-w-[1600px] relative w-full">
+        {/* Sprinkled white accents that fill the negative space */}
+        <HeroAccents />
+
         {/* Decorative dial */}
         <div className="absolute -top-8 right-0 md:right-10 w-[260px] h-[260px] md:w-[420px] md:h-[420px] opacity-90 pointer-events-none">
           <svg viewBox="0 0 200 200" className="w-full h-full spin-slow">
@@ -46,68 +49,191 @@ export default function Hero() {
                 />
               );
             })}
-            {/* Roman numerals as text */}
-            {["XII", "III", "VI", "IX"].map((n, i) => {
-              const angle = i * 90;
-              const a = (angle * Math.PI) / 180;
-              const r = 70;
-              const x = 100 + r * Math.sin(a);
-              const y = 100 - r * Math.cos(a);
-              return (
-                <text
-                  key={n}
-                  x={x}
-                  y={y + 4}
-                  textAnchor="middle"
-                  fontFamily="Instrument Serif"
-                  fontSize="13"
-                  fontStyle="italic"
-                  fill="var(--color-ink)"
-                >
-                  {n}
-                </text>
-              );
-            })}
           </svg>
         </div>
 
-        <div className="tag text-[var(--color-stone)] mb-8 md:mb-10 rise rise-1">
-          <span className="inline-block w-2 h-2 bg-[var(--color-rust)] rounded-full mr-2 align-middle" />
-          Est. 1991 · Custom Promotional Watches · Made for Brands
-        </div>
-
-        <h1 className="display text-[16vw] md:text-[12vw] lg:text-[180px] leading-[0.84] max-w-[18ch] rise rise-2">
-          We make
-          <br />
-          <span className="serif-italic lowercase">time</span>
-          <br />
-          worth
-          <br />
-          wearing.
+        <h1
+          className="display leading-[0.84] tracking-[-0.04em] select-none whitespace-nowrap"
+          style={{ fontSize: "clamp(4rem, 15.5vw, 18rem)" }}
+        >
+          <span className="hero-merge-left">
+            {"TIME".split("").map((ch, i) => (
+              <span
+                key={`t-${i}`}
+                className="hero-letter"
+                style={{ animationDelay: `${1600 + i * 180}ms` }}
+              >
+                {ch}
+              </span>
+            ))}
+          </span>
+          <span className="hero-merge-right">
+            {"ZONE".split("").map((ch, i) => (
+              <span
+                key={`z-${i}`}
+                className="hero-letter"
+                style={{ animationDelay: `${1600 + (i + 4) * 180}ms` }}
+              >
+                {ch}
+              </span>
+            ))}
+          </span>
         </h1>
-
-        <div className="mt-10 md:mt-16 grid md:grid-cols-12 gap-8 md:gap-12 rise rise-3">
-          <p className="md:col-span-6 lg:col-span-5 text-xl md:text-2xl leading-snug max-w-[42ch]">
-            We design, develop, and deliver custom watches for the brands
-            people remember. Promotional, corporate gifting, retail capsules
-            — built with the obsession of a watchmaker and the speed of a
-            studio.
-          </p>
-          <div className="md:col-span-6 lg:col-start-9 lg:col-span-4 self-end">
-            <div className="tag text-[var(--color-stone)] mb-3">
-              Currently building for
-            </div>
-            <div className="display text-3xl md:text-4xl leading-none">
-              Fortune 500s,
-              <br />
-              <span className="serif-italic lowercase">indie</span> labels,
-              <br />& everyone in
-              <br />
-              between.
-            </div>
-          </div>
-        </div>
       </div>
     </section>
+  );
+}
+
+function HeroAccents() {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none select-none"
+    >
+      {/* Big soft glow — top-left, blurred radial */}
+      <div
+        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+
+      {/* Soft glow — top-center mid */}
+      <div
+        className="absolute top-2 left-1/3 w-[360px] h-[360px] rounded-full hidden md:block"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 70%)",
+          filter: "blur(50px)",
+        }}
+      />
+
+      {/* Soft glow — top-right */}
+      <div
+        className="absolute -top-10 right-0 w-[320px] h-[320px] rounded-full hidden md:block"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 70%)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      {/* Outlined ring — upper-left */}
+      <div className="absolute top-10 left-4 w-24 h-24 rounded-full border border-white/15 hidden md:block" />
+
+      {/* Concentric rings — upper area */}
+      <svg
+        viewBox="0 0 64 64"
+        className="absolute top-20 left-1/3 w-16 h-16 hidden md:block opacity-30"
+      >
+        <circle cx="32" cy="32" r="30" fill="none" stroke="white" strokeWidth="0.5" />
+        <circle cx="32" cy="32" r="22" fill="none" stroke="white" strokeWidth="0.5" />
+        <circle cx="32" cy="32" r="14" fill="none" stroke="white" strokeWidth="0.5" />
+        <circle cx="32" cy="32" r="6" fill="none" stroke="white" strokeWidth="0.5" />
+      </svg>
+
+      {/* Outlined square rotated 45° — top center */}
+      <div
+        className="absolute top-6 left-1/2 w-8 h-8 border border-white/20 hidden lg:block"
+        style={{ transform: "translateX(-50%) rotate(45deg)" }}
+      />
+
+      {/* Thin diagonal line — top-right */}
+      <span
+        className="absolute top-16 right-1/3 w-32 h-px bg-white/15 origin-left hidden md:block"
+        style={{ transform: "rotate(-12deg)" }}
+      />
+
+      {/* Outlined triangle — upper-right */}
+      <svg
+        viewBox="0 0 40 40"
+        className="absolute top-32 right-12 w-10 h-10 hidden lg:block opacity-25"
+      >
+        <polygon
+          points="20,4 36,34 4,34"
+          fill="none"
+          stroke="white"
+          strokeWidth="1"
+        />
+      </svg>
+
+      {/* Larger outlined ring — upper-right */}
+      <div className="absolute top-2 right-1/4 w-32 h-32 rounded-full border border-white/12 hidden md:block" />
+
+      {/* Cross / plus marks — concentrated up top */}
+      <PlusMark className="absolute top-4 left-1/4 hidden md:block" />
+      <PlusMark className="absolute top-20 right-1/4 hidden md:block" />
+      <PlusMark className="absolute top-40 left-12 hidden md:block" />
+      <PlusMark className="absolute top-1/3 right-1/3 hidden lg:block" />
+      <PlusMark className="absolute top-1/2 left-1/2 hidden lg:block" />
+
+      {/* Solid white dots — small accents in upper half */}
+      <span className="absolute top-12 left-2/3 w-1.5 h-1.5 rounded-full bg-white/40 hidden md:block" />
+      <span className="absolute top-1/3 left-12 w-1 h-1 rounded-full bg-white/30 hidden md:block" />
+      <span className="absolute top-44 right-1/2 w-2 h-2 rounded-full bg-white/30 hidden md:block" />
+
+      {/* Dotted grid — upper-right corner */}
+      <div
+        className="absolute top-6 right-1/2 w-32 h-20 hidden md:block"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px)",
+          backgroundSize: "10px 10px",
+          opacity: 0.6,
+        }}
+      />
+
+      {/* Vertical thin line — runs through the upper area */}
+      <span className="absolute top-12 left-1 h-1/3 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent hidden md:block" />
+
+      {/* Thin arc / quarter-circle outline — mid-left */}
+      <svg
+        viewBox="0 0 100 100"
+        className="absolute top-1/3 left-1/4 w-24 h-24 hidden lg:block opacity-25"
+      >
+        <path
+          d="M 10 90 A 80 80 0 0 1 90 10"
+          fill="none"
+          stroke="white"
+          strokeWidth="1"
+          strokeDasharray="2 4"
+        />
+      </svg>
+
+      {/* Half-circle outline — upper area */}
+      <svg
+        viewBox="0 0 100 60"
+        className="absolute top-24 right-2/3 w-20 h-12 hidden md:block opacity-25"
+      >
+        <path
+          d="M 5 55 A 45 45 0 0 1 95 55"
+          fill="none"
+          stroke="white"
+          strokeWidth="1"
+        />
+      </svg>
+
+      {/* Small horizontal lines (tick clusters) — mid-right */}
+      <div className="absolute top-1/2 right-6 hidden lg:flex flex-col gap-1.5 opacity-30">
+        <span className="w-6 h-px bg-white" />
+        <span className="w-3 h-px bg-white" />
+        <span className="w-4 h-px bg-white" />
+        <span className="w-2 h-px bg-white" />
+      </div>
+    </div>
+  );
+}
+
+function PlusMark({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`relative w-3 h-3 inline-block ${className}`}
+      aria-hidden="true"
+    >
+      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-white/30" />
+      <span className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-white/30" />
+    </span>
   );
 }

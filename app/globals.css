@@ -10,10 +10,10 @@
   --color-rust: #e26a4c;
   --color-stone: #a8a297;
 
-  --font-display: "Anton", "Arial Narrow", sans-serif;
-  --font-serif: "Instrument Serif", "Georgia", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-body: "Inter Tight", system-ui, sans-serif;
+  --font-display: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: var(--font-mono-zero), ui-monospace, "JetBrains Mono", monospace;
 }
 
 @layer base {
@@ -57,11 +57,14 @@
   text-transform: uppercase;
 }
 
+/* Was an Instrument-Serif italic accent. Re-pointed at the body sans
+   (PP Neue Montreal) so existing usages keep their layout but lose
+   the squiggly look. Color/size handled by surrounding utilities. */
 .serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
+  font-family: var(--font-body);
+  font-style: normal;
   font-weight: 400;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 
 .tag {
@@ -109,7 +112,7 @@
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 .spin-slow { animation: spin-slow 60s linear infinite; }
 
-/* Reveal on load */
+/* Reveal on load — rise from below */
 @keyframes rise {
   from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -119,6 +122,68 @@
 .rise-2 { animation-delay: 180ms; }
 .rise-3 { animation-delay: 320ms; }
 .rise-4 { animation-delay: 480ms; }
+
+/* Reveal on load — drop from above with a slight overshoot */
+@keyframes drop {
+  0%   { opacity: 0; transform: translateY(-90px) scaleY(1.06); filter: blur(6px); }
+  60%  { opacity: 1; transform: translateY(8px) scaleY(0.98); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); filter: blur(0); }
+}
+.drop {
+  display: inline-block;
+  animation: drop 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 50% 0%;
+  will-change: transform, opacity, filter;
+}
+.drop-1 { animation-delay: 80ms; }
+.drop-2 { animation-delay: 220ms; }
+.drop-3 { animation-delay: 360ms; }
+.drop-4 { animation-delay: 500ms; }
+.drop-5 { animation-delay: 640ms; }
+.drop-6 { animation-delay: 780ms; }
+
+/* Hero — TIME slides in from the left, ZONE slides in from the right,
+   they meet in the middle, then each letter starts a perpetual float. */
+@keyframes hero-merge-left {
+  0%   { opacity: 0; transform: translateX(-60vw); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hero-merge-right {
+  0%   { opacity: 0; transform: translateX(60vw); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.hero-merge-left {
+  display: inline-block;
+  animation: hero-merge-left 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+.hero-merge-right {
+  display: inline-block;
+  animation: hero-merge-right 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-12px) scale(1.02); }
+}
+
+.hero-letter {
+  display: inline-block;
+  color: #ffffff;
+  /* Float kicks in only after the merge has landed (~1500ms). */
+  animation: hero-float 5.5s ease-in-out 1600ms infinite;
+  will-change: transform;
+  transition: filter 400ms ease, transform 400ms ease;
+}
+.hero-letter:hover {
+  filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
+}
 
 /* Underline on hover for links */
 .link-underline {
