@@ -134,7 +134,7 @@ export default function WorkGrid() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
           <div>
             <div className="tag text-[var(--color-stone)] mb-4">
-              [001] Watch series · 08 collections
+              Watch series · 08 collections
             </div>
             <h2 className="display text-6xl md:text-8xl lg:text-9xl leading-[0.86]">
               Built for brands

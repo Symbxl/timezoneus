@@ -84,7 +84,7 @@ function Logo() {
       width={240}
       height={116}
       priority
-      className="h-16 md:h-20 w-auto"
+      className="h-[72px] md:h-[88px] w-auto translate-y-1.5 md:translate-y-2"
     />
   );
 }

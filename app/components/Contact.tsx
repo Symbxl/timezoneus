@@ -15,7 +15,7 @@ export default function Contact() {
       <div className="mx-auto max-w-[1600px] relative">
         {/* Top: eyebrow + giant CTA headline */}
         <div className="tag text-[var(--color-brass)] mb-6">
-          [006] Get in touch
+          Get in touch
         </div>
         <h2 className="display text-6xl md:text-8xl lg:text-[160px] leading-[0.84] max-w-[16ch] tracking-[-0.01em]">
           Let&rsquo;s build something.

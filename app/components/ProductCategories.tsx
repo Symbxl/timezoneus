@@ -105,11 +105,8 @@ export default function ProductCategories() {
       <div className="mx-auto max-w-[1600px]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-14">
           <div>
-            <div className="tag text-[var(--color-stone)] mb-4">
-              [003] Product categories
-            </div>
             <h2 className="display text-5xl md:text-7xl lg:text-8xl leading-[0.86]">
-              What we make.
+              Product Categories
             </h2>
           </div>
           <a

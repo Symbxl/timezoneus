@@ -240,6 +240,145 @@
     hero-jitter 0.5s steps(8) var(--special-delay, 0ms) 2;
 }
 
+/* ----- Section reveal on scroll ----- */
+.reveal-section {
+  opacity: 0;
+  transition:
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+.reveal-rise   { transform: translateY(70px); filter: blur(2px); }
+.reveal-left   { transform: translateX(-80px); }
+.reveal-right  { transform: translateX(80px); }
+.reveal-zoom   { transform: scale(0.93); filter: blur(2px); }
+
+.reveal-section.reveal-in {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0);
+}
+
+/* ----- Hero ambient circles ----- */
+@keyframes circle-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  25%      { opacity: 0.8; transform: scale(1); }
+  60%      { opacity: 0.4; transform: scale(1.08); }
+}
+
+@keyframes circle-blink {
+  0%, 100% { opacity: 0; }
+  6%       { opacity: 0.95; }
+  9%       { opacity: 0; }
+  14%      { opacity: 0.7; }
+  17%      { opacity: 0; }
+  22%      { opacity: 1; }
+  25%      { opacity: 0; }
+  60%      { opacity: 0; }
+}
+
+@keyframes circle-ring-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  20%      { opacity: 0.6; transform: scale(1); }
+  55%      { opacity: 0.2; transform: scale(1.4); }
+}
+
+.hero-pulse-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.85);
+  animation: circle-pulse 2.6s ease-in-out var(--delay, 0s) infinite;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.hero-blink-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  animation: circle-blink 3.5s linear var(--delay, 0s) infinite;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hero-pulse-ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  animation: circle-ring-pulse 3.2s ease-out var(--delay, 0s) infinite;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+/* ----- Hero ambient watches ----- */
+@keyframes watch-cycle {
+  0%, 92%, 100% {
+    opacity: 0;
+    transform: scale(0.78) translateY(28px);
+    filter: blur(6px);
+  }
+  18%, 70% {
+    opacity: 0.85;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  85% {
+    opacity: 0.55;
+    transform: scale(0.96) translateY(8px);
+    filter: blur(2px);
+  }
+}
+
+.hero-watch {
+  position: absolute;
+  animation: watch-cycle 14s ease-in-out var(--delay, 0s) infinite;
+  pointer-events: none;
+  will-change: opacity, transform, filter;
+}
+
+/* ----- Hero big-circle animations (filled white) -----
+   Shared 7.5s cycle: ~2.5s active, then 5s invisible.
+   All three circles are synced so they vanish together. */
+@keyframes hero-circle-breathe {
+  0%, 33%, 100% { opacity: 0; transform: scale(0.85); }
+  5%            { opacity: 0.6; transform: scale(1); }
+  16%           { opacity: 1; transform: scale(1.1); }
+  27%           { opacity: 0.5; transform: scale(0.95); }
+}
+.hero-circle-breathe {
+  animation: hero-circle-breathe 7.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes hero-circle-blink {
+  0%, 33%, 100% { opacity: 0; }
+  4%, 13%, 22%  { opacity: 1; }
+  7%, 16%, 25%  { opacity: 0; }
+}
+.hero-circle-blink {
+  animation: hero-circle-blink 7.5s steps(1, end) infinite;
+  will-change: opacity;
+}
+
+/* Right circle plays during left's invisible window (33%–97%). */
+@keyframes hero-circle-pop {
+  0%, 33%, 100% { opacity: 0; transform: scale(0) translateY(20px); }
+  37%           { opacity: 1; transform: scale(1.25) translateY(-6px); }
+  41%           { transform: scale(0.9, 1.1) translateY(0); }
+  45%           { transform: scale(1.06, 0.94); }
+  50%           { transform: scale(1); }
+  60%           { transform: scale(1.05); }
+  70%           { transform: scale(0.97); }
+  80%           { transform: scale(1.03); }
+  90%           { opacity: 1; transform: scale(1); }
+  97%           { opacity: 0; transform: scale(0.7); }
+}
+.hero-circle-pop {
+  animation: hero-circle-pop 7.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  will-change: transform, opacity;
+}
+
 /* Underline on hover for links */
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);

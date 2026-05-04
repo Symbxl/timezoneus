@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 type Service = {
   title: string;
   blurb: string;
@@ -214,12 +218,31 @@ const services: Service[] = [
   },
 ];
 
-function Card({ s, index }: { s: Service; index: number }) {
+function Card({
+  s,
+  index,
+  inView,
+}: {
+  s: Service;
+  index: number;
+  inView: boolean;
+}) {
   const num = String(index + 1).padStart(2, "0");
+  // Stagger left → right on enter, right → left on exit so the wave reverses.
+  const enterDelay = 250 + index * 220;
+  const exitDelay = (services.length - 1 - index) * 120;
   return (
     <a
       href={s.href}
-      className="tile group relative flex flex-col h-full bg-[var(--color-bone)] border border-[var(--color-ink)]/15 hover:border-[var(--color-brass)] transition-all duration-500 p-7 md:p-9 min-h-[400px] md:min-h-[460px] overflow-hidden"
+      style={{
+        transitionDelay: `${inView ? enterDelay : exitDelay}ms`,
+        transitionDuration: inView ? "1400ms" : "900ms",
+      }}
+      className={`tile group relative flex flex-col h-full bg-white text-black border border-black/10 hover:border-[var(--color-brass)] p-7 md:p-9 min-h-[400px] md:min-h-[460px] overflow-hidden transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
+        inView
+          ? "opacity-100 translate-y-0 scale-100 rotate-0 blur-0"
+          : "opacity-0 translate-y-32 scale-[0.85] -rotate-2 blur-md"
+      }`}
     >
       {/* Top row: big number + service tag */}
       <div className="flex items-start justify-between gap-4">
@@ -274,23 +297,47 @@ function Card({ s, index }: { s: Service; index: number }) {
 }
 
 export default function Services() {
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <section className="px-6 md:px-10 py-20 md:py-28">
+    <section
+      ref={ref}
+      className="no-reveal px-6 md:px-10 pt-20 md:pt-28 pb-20 md:pb-28"
+    >
       <div className="mx-auto max-w-[1600px]">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 md:mb-14">
-          <div className="max-w-[60ch]">
-            <div className="tag text-[var(--color-stone)] mb-4">
-              [000] Capabilities
-            </div>
-            <h2 className="display text-6xl md:text-8xl lg:text-9xl leading-[0.86]">
+          <div className="max-w-none">
+            <h2
+              className={`display leading-[0.86] whitespace-nowrap transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
+                inView
+                  ? "opacity-100 translate-x-0 scale-100 blur-0"
+                  : "opacity-0 -translate-x-40 scale-95 blur-[14px]"
+              }`}
+              style={{
+                fontSize: "clamp(3.75rem, 11vw, 13rem)",
+                transitionDuration: inView ? "1700ms" : "1100ms",
+              }}
+            >
               Done in-house.
             </h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--color-ink)]/15 border border-[var(--color-ink)]/15">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {services.map((s, i) => (
-            <Card key={s.title} s={s} index={i} />
+            <Card key={s.title} s={s} index={i} inView={inView} />
           ))}
         </div>
       </div>

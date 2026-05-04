@@ -64,7 +64,7 @@ export default function FAQ() {
           <div className="md:col-span-4 md:sticky md:top-32 md:self-start">
             <div className="inline-flex items-center gap-2.5 bg-black text-white border border-white/20 px-4 py-2 tag uppercase tracking-[0.18em] mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brass)]" />
-              [005] · FAQ
+              FAQ
             </div>
             <h2 className="display text-6xl md:text-7xl lg:text-8xl leading-[0.86]">
               Things
