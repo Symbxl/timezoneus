@@ -7,53 +7,56 @@ type Series = {
   image: string;
 };
 
+// All collections funnel to the Watches view in our own catalog.
+const SERIES_HREF = "/products?category=watches";
+
 const series: Series[] = [
   {
     name: "Executive Series",
     blurb: "Boardroom-grade cases with leather bands. The flagship line.",
-    href: "https://www.timezoneus.com/category/executive-series",
+    href: SERIES_HREF,
     image: "/series/Executive-Series.jpg",
   },
   {
     name: "Digi Clips",
     blurb: "Carabiner-clipped digitals built for the field.",
-    href: "https://www.timezoneus.com/category/digi-clipz",
+    href: SERIES_HREF,
     image: "/series/Digi-Clipz.jpg",
   },
   {
     name: "Rectangle Series",
     blurb: "Tank-style rectangular cases with a vintage edge.",
-    href: "https://www.timezoneus.com/category/rectangle-series",
+    href: SERIES_HREF,
     image: "/series/Rectangle-Series.jpg",
   },
   {
     name: "Sapphire Series",
     blurb: "Scratch-resistant sapphire crystals on signature movements.",
-    href: "https://www.timezoneus.com/category/sapphire-series",
+    href: SERIES_HREF,
     image: "/series/Sapphire-Series.jpg",
   },
   {
     name: "Swiss Series",
     blurb: "Precision Swiss-style movements in a classic round profile.",
-    href: "https://www.timezoneus.com/category/swiss-series",
+    href: SERIES_HREF,
     image: "/series/Swiss-Series.jpg",
   },
   {
     name: "Tahoe Series",
     blurb: "Sport-rugged bezels and outdoor reliability.",
-    href: "https://www.timezoneus.com/category/tahoe-series",
+    href: SERIES_HREF,
     image: "/series/Tahoe-Series.jpg",
   },
   {
     name: "Union Made Watches",
     blurb: "Made in the USA. Union-shop assembled.",
-    href: "https://www.timezoneus.com/category/union-made-watches",
+    href: SERIES_HREF,
     image: "/series/Union-Made-Watches.jpg",
   },
   {
     name: "Value & Sport Watches",
     blurb: "Everyday silicone-strap sport pieces, priced for promotion.",
-    href: "https://www.timezoneus.com/category/value-sport-watches",
+    href: SERIES_HREF,
     image: "/series/Value-Sport-Watches.jpg",
   },
 ];
@@ -63,8 +66,6 @@ function Tile({ s, index }: { s: Series; index: number }) {
   return (
     <a
       href={s.href}
-      target="_blank"
-      rel="noreferrer"
       className="tile group relative block overflow-hidden bg-[#0a0a0a] text-white border border-white/10 hover:border-[#d4a44a]/70 transition-all duration-500"
     >
       <div className="flex flex-row items-stretch h-full min-h-[220px] md:min-h-[280px]">

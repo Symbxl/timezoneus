@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   CATEGORIES,
   CATEGORY_LABEL,
   PRODUCTS,
-  productUrl,
+  productId,
+  productImageUrl,
   type Product,
   type ProductCategory,
 } from "./products-data";
@@ -69,39 +72,72 @@ export default function ProductsBrowser() {
     });
   }, [filter, query]);
 
+  const filterLabel =
+    filter === "all" ? "All products" : CATEGORY_LABEL[filter];
+  const isFiltered = filter !== "all" || query.trim().length > 0;
+
   return (
     <>
-      <section className="px-6 md:px-10 pb-10 max-w-[1600px] mx-auto">
-        <div className="border-t border-b border-[var(--color-ink)]/15 py-6 flex flex-col gap-5">
+      <section className="px-6 md:px-10 pb-8 md:pb-10 max-w-[1600px] mx-auto">
+        {/* Toolbar: search input + result counter */}
+        <div className="border-t border-[var(--color-ink)]/15 pt-6 md:pt-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-3 w-full md:max-w-md">
-              <SearchIcon />
+            <div className="relative w-full md:max-w-md">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-stone)] pointer-events-none">
+                <SearchIcon />
+              </span>
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={`Search ${PRODUCTS.length} products by name or SKU…`}
-                className="flex-1 bg-transparent border-b border-[var(--color-ink)]/30 focus:border-[var(--color-brass)] outline-none py-2 text-base placeholder:text-[var(--color-stone)] transition-colors"
+                placeholder="Search by name or SKU"
+                className="w-full bg-[var(--color-bone-deep)] border border-[var(--color-ink)]/15 focus:border-[var(--color-brass)] focus:bg-[var(--color-bone)] outline-none rounded-md pl-11 pr-12 py-3 text-sm md:text-base placeholder:text-[var(--color-stone)] transition-colors"
                 aria-label="Search products"
               />
               {query && (
                 <button
                   type="button"
                   onClick={() => setQuery("")}
-                  className="tag text-[var(--color-stone)] hover:text-[var(--color-brass)]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-7 h-7 rounded-full text-[var(--color-stone)] hover:text-[var(--color-ink)] hover:bg-[var(--color-ink)]/10 transition-colors"
                   aria-label="Clear search"
                 >
-                  clear
+                  <span aria-hidden="true">×</span>
                 </button>
               )}
             </div>
-            <div className="tag text-[var(--color-stone)]">
-              {visible.length === PRODUCTS.length
-                ? `${PRODUCTS.length} products`
-                : `${visible.length} of ${PRODUCTS.length}`}
+            <div className="flex items-center gap-3 tag text-[var(--color-stone)]">
+              <span className="display text-2xl md:text-3xl text-[var(--color-ink)] leading-none">
+                {visible.length}
+              </span>
+              <span>
+                of {PRODUCTS.length} {visible.length === 1 ? "result" : "results"}
+              </span>
+              {isFiltered && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setFilter("all");
+                  }}
+                  className="ml-2 tag uppercase tracking-[0.16em] text-[var(--color-brass)] hover:text-[var(--color-brass-bright)] transition-colors"
+                >
+                  Reset ↻
+                </button>
+              )}
             </div>
           </div>
+        </div>
 
+        {/* Category filter row */}
+        <div className="mt-6 pt-6 border-t border-[var(--color-ink)]/10">
+          <div className="flex items-center justify-between gap-4 mb-3">
+            <div className="tag text-[var(--color-stone)] uppercase tracking-[0.18em]">
+              Filter by category
+            </div>
+            <div className="hidden md:block tag text-[var(--color-stone)]">
+              Active: <span className="text-[var(--color-ink)]">{filterLabel}</span>
+            </div>
+          </div>
           <div className="flex flex-wrap gap-2">
             <Chip
               active={filter === "all"}
@@ -171,18 +207,22 @@ function Chip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`tag relative px-3.5 py-2 border transition-colors ${
+      className={`tag relative inline-flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-200 ${
         active
-          ? "bg-[var(--color-ink)] text-[var(--color-bone)] border-[var(--color-ink)] shadow-[inset_0_-2px_0_0_var(--color-brass)]"
+          ? "bg-[var(--color-ink)] text-[var(--color-bone)] border-[var(--color-ink)]"
           : accent
-            ? "border-[var(--color-brass)]/60 text-[var(--color-brass)] hover:bg-[var(--color-brass)] hover:text-[var(--color-ink)]"
-            : "border-[var(--color-ink)]/25 text-[var(--color-ink)] hover:bg-[var(--color-bone-deep)] hover:border-[var(--color-ink)]/50"
+            ? "border-[var(--color-brass)]/40 text-[var(--color-ink)] hover:border-[var(--color-brass)] hover:text-[var(--color-brass)]"
+            : "border-[var(--color-ink)]/20 text-[var(--color-ink-soft)] hover:border-[var(--color-ink)]/50 hover:text-[var(--color-ink)]"
       }`}
     >
-      {label}
+      <span>{label}</span>
       <span
-        className={`ml-2 ${
-          active ? "opacity-70" : "text-[var(--color-stone)]"
+        className={`text-[10px] tabular-nums ${
+          active
+            ? "text-[var(--color-bone)]/60"
+            : accent
+              ? "text-[var(--color-brass)]/70"
+              : "text-[var(--color-stone)]"
         }`}
       >
         {count}
@@ -192,19 +232,10 @@ function Chip({
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const initials = product.name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase() ?? "")
-    .join("");
-
   return (
-    <a
-      href={productUrl(product)}
-      target="_blank"
-      rel="noreferrer"
-      className="tile group relative flex flex-col bg-[var(--color-bone)] border border-[var(--color-ink)]/15 hover:border-[var(--color-brass)]/60 hover:bg-[var(--color-bone-deep)] transition-colors min-h-[260px] overflow-hidden"
+    <Link
+      href={`/product/${productId(product)}`}
+      className="tile group relative flex flex-col bg-[var(--color-bone)] border border-[var(--color-ink)]/15 hover:border-[var(--color-brass)]/60 hover:bg-[var(--color-bone-deep)] transition-colors overflow-hidden"
     >
       <div className="flex items-center justify-between gap-3 px-5 md:px-6 py-3 border-b border-[var(--color-ink)]/10">
         <span className="tag text-[var(--color-stone)] truncate">
@@ -212,32 +243,24 @@ function ProductCard({ product }: { product: Product }) {
         </span>
         <span
           aria-hidden="true"
-          className="tag text-[var(--color-stone)] shrink-0 transition-all duration-300 group-hover:text-[var(--color-brass)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          className="tag text-[var(--color-stone)] shrink-0 transition-all duration-300 group-hover:text-[var(--color-brass)] group-hover:translate-x-0.5"
         >
-          ↗
+          →
         </span>
       </div>
 
-      <div className="relative flex-1 flex items-center justify-center px-5 md:px-6 py-8 overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)",
-            backgroundSize: "12px 12px",
-          }}
+      <div className="relative aspect-square bg-gradient-to-br from-[#f6f0e3] via-[#e9dfc8] to-[#cdbf9f] overflow-hidden">
+        <Image
+          src={productImageUrl(product, "Medium")}
+          alt={product.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
+          className="object-contain p-5 transition-transform duration-700 ease-out group-hover:scale-[1.05]"
         />
-        <span
-          aria-hidden="true"
-          className="font-serif text-6xl md:text-7xl text-[var(--color-ink)]/15 group-hover:text-[var(--color-brass)]/40 transition-colors duration-500 select-none tracking-tight"
-        >
-          {initials || "·"}
-        </span>
       </div>
 
       <div className="px-5 md:px-6 pt-4 pb-5 border-t border-[var(--color-ink)]/10">
-        <h3 className="font-serif text-lg md:text-xl leading-tight mb-3 line-clamp-2 group-hover:text-[var(--color-brass)] transition-colors">
+        <h3 className="font-medium text-base md:text-lg leading-tight mb-3 line-clamp-2 text-[var(--color-ink)] group-hover:text-[var(--color-brass)] transition-colors">
           {product.name}
         </h3>
         <div className="flex items-center gap-2">
@@ -248,7 +271,7 @@ function ProductCard({ product }: { product: Product }) {
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

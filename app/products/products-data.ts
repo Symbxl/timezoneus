@@ -55,10 +55,299 @@ export const CATEGORY_LABEL: Record<ProductCategory, string> =
 
 export const NAV_PRODUCT_CATEGORIES = CATEGORIES.filter((c) => c.inNav);
 
-export function productUrl(p: Product): string {
-  return `https://www.timezoneus.com/product/${p.slug}/${encodeURIComponent(
-    p.sku.toLowerCase(),
-  )}`;
+// Used as the URL segment under /product/<id>. Derived from SKU so it's stable
+// and unique (slugs collide — multiple products share a slug but never a SKU).
+export function productId(p: Product): string {
+  return p.sku
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+const CDN_BASE =
+  "https://d207zvy2rsg5b5.cloudfront.net/AF3B91E9-D8B1-47CD-B653-B29D8AAF92F3/Products";
+
+// SKUs whose images we couldn't download locally (URL encoding quirks on
+// timezoneus.com). These keep using the live CDN as a fallback.
+const REMOTE_FALLBACK_IDS = new Set<string>([
+  "tz-bt-cooler",
+  "lb-cirque-du-seniors",
+  "custom-lanyard-badge",
+  "tz-lyd-clear-pouch",
+  "tz-rail-mat-clr",
+  "corkscrew-wine-opener-with-foil-cutter",
+  "double-jigger",
+  "pl-750-milg",
+  "custom-straw-hat",
+  "tz-tasting-kit",
+  "tz-fringe-bag",
+  "trucker-hat",
+  "tz-tnation-pack",
+]);
+
+export function productImageUrl(
+  p: Product,
+  size: "Thumbnail" | "Medium" | "Large" = "Large",
+): string {
+  const id = productId(p);
+  // 492 of 505 have a local copy in /public/products/<id>.jpg.
+  // The "size" param is ignored locally — we serve a single high-quality file.
+  if (!REMOTE_FALLBACK_IDS.has(id)) {
+    return `/products/${id}.jpg`;
+  }
+  // Fallback to the live CDN for the handful that didn't download.
+  return `${CDN_BASE}/${size}/${encodeURIComponent(p.sku.toUpperCase())}.jpg`;
+}
+
+export function findProductById(id: string): Product | undefined {
+  return PRODUCTS.find((p) => productId(p) === id);
+}
+
+export function similarProducts(p: Product, count = 4): Product[] {
+  return PRODUCTS.filter(
+    (other) => other.category === p.category && other.sku !== p.sku,
+  ).slice(0, count);
+}
+
+// ── Category-default extras ────────────────────────────────────────────────
+// Real per-product specs (exact colors, packaging, imprint method) live in
+// timezoneus.com's authenticated SaaS API. Until that's wired up, we surface
+// the **typical** options for the category so the detail pages read as real
+// pages, with clear "ask us" language.
+
+export interface ColorSwatch {
+  name: string;
+  hex: string;
+}
+
+export interface ProductSpecs {
+  colors: ColorSwatch[];
+  packaging: string[];
+  materials: string[];
+  imprintMethods: string[];
+  moq: string;
+  leadTime: string;
+}
+
+const DEFAULTS_BY_CATEGORY: Record<ProductCategory, ProductSpecs> = {
+  watches: {
+    colors: [
+      { name: "Silver", hex: "#c8c8cc" },
+      { name: "Gold", hex: "#c9a14a" },
+      { name: "Two-tone", hex: "#a98c3c" },
+      { name: "Black band", hex: "#0a0a0a" },
+      { name: "Brown leather", hex: "#5a3922" },
+    ],
+    packaging: ["Velvet pouch", "Two-piece gift box", "Custom display tin"],
+    materials: ["Stainless steel case", "Mineral or sapphire crystal", "Genuine or PU leather band"],
+    imprintMethods: ["Pad print", "Laser engrave", "Dial print", "Caseback engrave"],
+    moq: "100 units",
+    leadTime: "12–18 weeks (quartz) · 18–26 weeks (automatic)",
+  },
+  ppe: {
+    colors: [
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Blue", hex: "#2563eb" },
+      { name: "Custom", hex: "#d4a44a" },
+    ],
+    packaging: ["Bulk poly bag", "Individual hygiene wrap", "Retail header card"],
+    materials: ["Medical-grade nonwoven", "Polypropylene", "Cotton blend"],
+    imprintMethods: ["Heat transfer", "Screen print", "Embroidery"],
+    moq: "500 units",
+    leadTime: "4–8 weeks",
+  },
+  tech: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Silver", hex: "#c8c8cc" },
+      { name: "Brass", hex: "#d4a44a" },
+      { name: "Custom Pantone", hex: "#dc2626" },
+    ],
+    packaging: ["Branded blister pack", "Two-piece gift box", "Retail-ready hang tag"],
+    materials: ["ABS plastic", "Aluminum", "TPU rubber"],
+    imprintMethods: ["Pad print", "UV print", "Laser engrave", "4-color CMYK"],
+    moq: "100 units",
+    leadTime: "8–14 weeks",
+  },
+  acrylic: {
+    colors: [
+      { name: "Clear", hex: "#dbeafe" },
+      { name: "Frosted", hex: "#e5e7eb" },
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Custom Pantone", hex: "#7c3aed" },
+    ],
+    packaging: ["Foam-cushioned mailer", "Felt sleeve", "Branded gift box"],
+    materials: ["Cast acrylic", "Extruded acrylic", "Plywood backer"],
+    imprintMethods: ["UV direct print", "Laser engrave", "Sublimation insert"],
+    moq: "50 units",
+    leadTime: "6–10 weeks",
+  },
+  silicone: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Red", hex: "#dc2626" },
+      { name: "Blue", hex: "#2563eb" },
+      { name: "Green", hex: "#16a34a" },
+      { name: "Glow-in-dark", hex: "#bef264" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Bulk poly bag (250-count)", "Header-card retail packs of 10", "Custom slipcase"],
+    materials: ["100% silicone", "Glow polymer additive (optional)"],
+    imprintMethods: ["Debossed", "Embossed", "Ink-fill debossed", "Silk screen", "Segmented multicolor"],
+    moq: "100 units",
+    leadTime: "3–5 weeks",
+  },
+  lanyards: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Navy", hex: "#1e3a8a" },
+      { name: "Royal", hex: "#1d4ed8" },
+      { name: "Red", hex: "#dc2626" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Bulk bagged", "Individual sleeve", "Boxed event sets"],
+    materials: ["Polyester", "Nylon", "Recycled PET", "Cotton"],
+    imprintMethods: ["Silk screen", "Dye-sublimation (full color)", "Woven jacquard"],
+    moq: "100 units",
+    leadTime: "3–6 weeks",
+  },
+  sunglasses: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Tortoise", hex: "#7a4f1d" },
+      { name: "Two-tone", hex: "#a98c3c" },
+      { name: "Custom Pantone", hex: "#dc2626" },
+    ],
+    packaging: ["Microfiber pouch", "Hard clamshell case", "Branded gift box"],
+    materials: ["Polycarbonate frame", "UV-400 lens", "Acetate (premium)"],
+    imprintMethods: ["Pad print on temple", "Laser engrave", "Lens decal"],
+    moq: "150 units",
+    leadTime: "6–10 weeks",
+  },
+  drinkware: {
+    colors: [
+      { name: "Stainless", hex: "#c8c8cc" },
+      { name: "Matte black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Powder coated", hex: "#16a34a" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Single-piece gift box", "Bulk shrink-wrap", "Retail header"],
+    materials: ["18/8 stainless steel", "Borosilicate glass", "Tritan plastic"],
+    imprintMethods: ["Laser engrave", "Pad print", "Wraparound 4-color", "Etching"],
+    moq: "100 units",
+    leadTime: "6–10 weeks",
+  },
+  apparel: {
+    colors: [
+      { name: "Heather grey", hex: "#9ca3af" },
+      { name: "Charcoal", hex: "#374151" },
+      { name: "Navy", hex: "#1e3a8a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Polybag", "Folded with hangtag", "Custom branded mailer"],
+    materials: ["Cotton", "Tri-blend", "Performance polyester"],
+    imprintMethods: ["Screen print", "Embroidery", "DTG", "Sublimation", "Heat transfer"],
+    moq: "48 units",
+    leadTime: "4–8 weeks",
+  },
+  emblems: {
+    colors: [
+      { name: "Gold", hex: "#c9a14a" },
+      { name: "Silver", hex: "#c8c8cc" },
+      { name: "Antique brass", hex: "#8a6d3b" },
+      { name: "Copper", hex: "#b87333" },
+      { name: "Black nickel", hex: "#1f1f1f" },
+    ],
+    packaging: ["Velvet pouch", "Acrylic display case", "Two-piece gift box"],
+    materials: ["Die-struck brass", "Soft enamel", "Hard enamel", "Cloisonné"],
+    imprintMethods: ["Die-struck", "Photo-etched", "Laser engrave", "4-color enamel fill"],
+    moq: "100 units",
+    leadTime: "5–8 weeks",
+  },
+  office: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Brown", hex: "#5a3922" },
+      { name: "Kraft", hex: "#a8754a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Belly band", "Branded slipcase", "Retail-ready"],
+    materials: ["Recycled paper", "Vegan leather", "Genuine leather", "Hardcover"],
+    imprintMethods: ["Foil stamp", "Deboss", "Screen print", "Embossed logo"],
+    moq: "100 units",
+    leadTime: "5–8 weeks",
+  },
+  cannabis: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Mylar matte", hex: "#1f1f1f" },
+      { name: "Kraft", hex: "#a8754a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Custom Pantone", hex: "#16a34a" },
+    ],
+    packaging: ["Child-resistant exit bag", "Pre-roll tube", "Mylar bag", "Branded box"],
+    materials: ["Mylar", "Recycled board", "Tin", "Glass jar (CR lid)"],
+    imprintMethods: ["Direct CMYK print", "Foil stamp", "Custom die-cut"],
+    moq: "1,000 units",
+    leadTime: "4–8 weeks",
+  },
+  packaging: {
+    colors: [
+      { name: "Kraft", hex: "#a8754a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Magnetic gift box", "Slipcase", "Tube", "Mailer", "Insert tray"],
+    materials: ["Solid board", "Recycled fiber", "Eva foam insert", "Acetate window"],
+    imprintMethods: ["Offset CMYK", "Foil stamp", "Spot UV", "Deboss/emboss", "Soft-touch lamination"],
+    moq: "250 units",
+    leadTime: "6–10 weeks",
+  },
+  other: {
+    colors: [
+      { name: "Black", hex: "#0a0a0a" },
+      { name: "White", hex: "#f5f5f5" },
+      { name: "Custom Pantone", hex: "#d4a44a" },
+    ],
+    packaging: ["Custom — ask us"],
+    materials: ["Custom — ask us"],
+    imprintMethods: ["Pad print", "Screen print", "Laser engrave", "Custom"],
+    moq: "Varies",
+    leadTime: "Varies",
+  },
+};
+
+export function productSpecs(p: Product): ProductSpecs {
+  return DEFAULTS_BY_CATEGORY[p.category];
+}
+
+// Cheap, deterministic auto-description so each detail page reads as something
+// rather than a stub. Real copy lives on timezoneus.com — link out for the source.
+export function generatedBlurb(p: Product): string {
+  const cat = CATEGORY_LABEL[p.category];
+  const intros = [
+    `Custom-built ${p.name.toLowerCase()} from our ${cat.toLowerCase()} program.`,
+    `${p.name} — engineered in our Edison, NJ workshop and finished to spec.`,
+    `A ${cat.toLowerCase()} staple, made to your brand.`,
+  ];
+  // Pick deterministically by SKU hash so the same product always reads the same.
+  let hash = 0;
+  for (let i = 0; i < p.sku.length; i++)
+    hash = (hash * 31 + p.sku.charCodeAt(i)) | 0;
+  return intros[Math.abs(hash) % intros.length];
 }
 
 export const PRODUCTS: Product[] = [

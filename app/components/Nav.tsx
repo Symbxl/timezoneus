@@ -13,15 +13,18 @@ type Menu = {
   items: MenuItem[];
 };
 
+// Each series links to the Watches view in our own catalog. Series-level
+// filtering can be added later; for now every entry funnels to the same
+// internal page so nothing leaves the site.
 const COLLECTIONS: MenuItem[] = [
-  { label: "Executive Series", href: "https://www.timezoneus.com/category/executive-series", external: true },
-  { label: "Digi Clips", href: "https://www.timezoneus.com/category/digi-clipz", external: true },
-  { label: "Rectangle Series", href: "https://www.timezoneus.com/category/rectangle-series", external: true },
-  { label: "Sapphire Series", href: "https://www.timezoneus.com/category/sapphire-series", external: true },
-  { label: "Swiss Series", href: "https://www.timezoneus.com/category/swiss-series", external: true },
-  { label: "Tahoe Series", href: "https://www.timezoneus.com/category/tahoe-series", external: true },
-  { label: "Union Made Watches", href: "https://www.timezoneus.com/category/union-made-watches", external: true },
-  { label: "Value & Sport Watches", href: "https://www.timezoneus.com/category/value-sport-watches", external: true },
+  { label: "Executive Series", href: "/products?category=watches" },
+  { label: "Digi Clips", href: "/products?category=watches" },
+  { label: "Rectangle Series", href: "/products?category=watches" },
+  { label: "Sapphire Series", href: "/products?category=watches" },
+  { label: "Swiss Series", href: "/products?category=watches" },
+  { label: "Tahoe Series", href: "/products?category=watches" },
+  { label: "Union Made Watches", href: "/products?category=watches" },
+  { label: "Value & Sport Watches", href: "/products?category=watches" },
 ];
 
 const MENUS: Menu[] = [
@@ -51,11 +54,11 @@ const MENUS: Menu[] = [
   {
     key: "sales",
     label: "Sales Tools",
-    href: "#distributor-tools",
+    href: "/case-studies",
     align: "right",
     items: [
+      { label: "Case Studies", href: "/case-studies" },
       { label: "Distributor Tools", href: "#distributor-tools" },
-      { label: "Case Studies", href: "#case-studies" },
       { label: "Prop 65", href: "#prop-65" },
     ],
   },
