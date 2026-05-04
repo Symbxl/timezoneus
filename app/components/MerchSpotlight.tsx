@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const HEADLINE_WORDS = ["We", "make", "the", "merch", "you", "want."];
+// On md+, headline reads as two explicit lines:
+//   "We make the / merch you want."
+// On mobile, line wrappers fall back to inline so words flow naturally.
+const HEADLINE_LINE_1 = ["We", "make", "the"];
+const HEADLINE_LINE_2 = ["merch", "you", "want."];
 
 export default function MerchSpotlight() {
   const ref = useRef<HTMLElement>(null);
@@ -28,26 +32,41 @@ export default function MerchSpotlight() {
     <section ref={ref} className="px-6 md:px-10 py-20 md:py-28">
       <div className="mx-auto max-w-[1600px]">
         <h2 className="display text-7xl md:text-[10vw] lg:text-[8.5rem] xl:text-[10rem] leading-[0.86] tracking-[-0.02em] mb-10 md:mb-14 max-w-[18ch]">
-          {HEADLINE_WORDS.map((w, i) => (
-            <span
-              key={`${w}-${i}`}
-              className="inline-block overflow-hidden align-bottom pb-[0.18em] mr-[0.18em]"
-            >
+          {(() => {
+            const renderWord = (w: string, i: number) => (
               <span
-                className={`inline-block transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
-                  inView
-                    ? "translate-y-0 scale-100 opacity-100 blur-0"
-                    : "translate-y-[110%] scale-[1.12] opacity-0 blur-[10px]"
-                }`}
-                style={{
-                  transitionDuration: "1500ms",
-                  transitionDelay: inView ? `${200 + i * 220}ms` : "0ms",
-                }}
+                key={`${w}-${i}`}
+                className="inline-block overflow-hidden align-bottom pb-[0.18em] mr-[0.18em]"
               >
-                {w}
+                <span
+                  className={`inline-block transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
+                    inView
+                      ? "translate-y-0 scale-100 opacity-100 blur-0"
+                      : "translate-y-[110%] scale-[1.12] opacity-0 blur-[10px]"
+                  }`}
+                  style={{
+                    transitionDuration: "1500ms",
+                    transitionDelay: inView ? `${200 + i * 220}ms` : "0ms",
+                  }}
+                >
+                  {w}
+                </span>
               </span>
-            </span>
-          ))}
+            );
+
+            return (
+              <>
+                <span className="md:block">
+                  {HEADLINE_LINE_1.map((w, i) => renderWord(w, i))}
+                </span>
+                <span className="md:block">
+                  {HEADLINE_LINE_2.map((w, i) =>
+                    renderWord(w, i + HEADLINE_LINE_1.length),
+                  )}
+                </span>
+              </>
+            );
+          })()}
         </h2>
 
         <a

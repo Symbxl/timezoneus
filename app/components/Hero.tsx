@@ -49,7 +49,7 @@ export default function Hero() {
 
       <div className="mx-auto max-w-[1600px] relative w-full">
         <h1
-          className="display leading-[0.84] tracking-[-0.04em] select-none whitespace-nowrap translate-y-10 md:translate-y-20"
+          className="display leading-[0.84] tracking-[-0.04em] select-none whitespace-nowrap translate-y-20 md:translate-y-20"
           style={{ fontSize: "clamp(4.5rem, 18vw, 22rem)" }}
         >
           <span className="hero-merge-left">
@@ -96,9 +96,9 @@ function HeroAccents() {
       aria-hidden="true"
       className="absolute inset-0 pointer-events-none select-none"
     >
-      {/* Big soft glow — top-left, blurred radial */}
+      {/* Big soft glow — top-left, blurred radial (desktop only) */}
       <div
-        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full"
+        className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full hidden md:block"
         style={{
           background:
             "radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%)",
@@ -127,16 +127,10 @@ function HeroAccents() {
       />
 
       {/* Filled white circles — synced 7.5s cycle (2.5s active, 5s gone) */}
-      <div className="hero-circle-blink absolute top-1/3 left-2 md:left-4 w-52 h-52 md:w-[22rem] md:h-[22rem] rounded-full bg-white hidden md:block" />
-      <div className="hero-circle-pop absolute -bottom-48 right-4 w-64 h-64 md:w-[28rem] md:h-[28rem] hidden md:block">
+      <div className="hero-circle-blink absolute top-1/3 -left-4 md:-left-10 w-52 h-52 md:w-[22rem] md:h-[22rem] rounded-full bg-white" />
+      <div className="hero-circle-pop absolute -bottom-48 -right-6 md:-right-10 w-64 h-64 md:w-[28rem] md:h-[28rem]">
         <ClockDial />
       </div>
-
-      {/* Cross / plus marks — concentrated up top */}
-      <PlusMark className="absolute top-4 left-1/4 hidden md:block" />
-      <PlusMark className="absolute top-20 right-1/4 hidden md:block" />
-      <PlusMark className="absolute top-40 left-12 hidden md:block" />
-      <PlusMark className="absolute top-1/3 right-1/3 hidden lg:block" />
 
       {/* Dotted grid — upper-right corner */}
       <div
@@ -201,14 +195,3 @@ function ClockDial() {
   );
 }
 
-function PlusMark({ className = "" }: { className?: string }) {
-  return (
-    <span
-      className={`relative w-3 h-3 inline-block ${className}`}
-      aria-hidden="true"
-    >
-      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-white/30" />
-      <span className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-white/30" />
-    </span>
-  );
-}

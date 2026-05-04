@@ -59,11 +59,11 @@ export default function HeroSpotlight() {
   return (
     <section
       ref={ref}
-      className="px-4 md:px-6 pt-56 md:pt-80 pb-24 md:pb-32 flex items-center justify-center"
+      className="px-0 md:px-6 pt-56 md:pt-80 pb-24 md:pb-32 flex items-center justify-center"
     >
       <div className="w-full max-w-[1800px]">
         <div
-          className={`relative block overflow-hidden rounded-2xl md:rounded-3xl border border-[var(--color-ink)]/15 aspect-[5/3] md:aspect-[16/9] bg-[var(--color-bone-deep)] transition-all ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`relative block overflow-hidden rounded-none md:rounded-3xl border-y md:border border-[var(--color-ink)]/15 aspect-[3/4] sm:aspect-[4/3] md:aspect-[16/9] bg-[var(--color-bone-deep)] transition-all ease-[cubic-bezier(0.22,1,0.36,1)] ${
             inView
               ? "opacity-100 translate-y-0 scale-100"
               : "opacity-0 translate-y-12 scale-[0.98]"

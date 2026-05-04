@@ -326,7 +326,7 @@ export default function Services() {
                   : "opacity-0 -translate-x-40 scale-95 blur-[14px]"
               }`}
               style={{
-                fontSize: "clamp(3.75rem, 11vw, 13rem)",
+                fontSize: "clamp(2rem, 11vw, 13rem)",
                 transitionDuration: inView ? "1700ms" : "1100ms",
               }}
             >
