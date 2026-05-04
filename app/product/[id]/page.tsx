@@ -76,7 +76,7 @@ export default async function ProductPage({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Image column */}
-          <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-[#f6f0e3] via-[#e9dfc8] to-[#cdbf9f] border border-[var(--color-ink)]/15">
+          <div className="relative aspect-square w-full overflow-hidden border border-[var(--color-ink)]/15">
             <Image
               src={productImageUrl(product, "Large")}
               alt={product.name}
@@ -84,7 +84,7 @@ export default async function ProductPage({
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
               quality={92}
-              className="object-contain p-6 md:p-10"
+              className="object-cover"
             />
           </div>
 
@@ -319,14 +319,14 @@ export default async function ProductPage({
                 href={`/product/${productId(sp)}`}
                 className="tile group relative block bg-white text-black border border-[var(--color-ink)]/15 hover:border-[var(--color-brass)] transition-colors overflow-hidden"
               >
-                <div className="relative aspect-square bg-gradient-to-br from-[#f6f0e3] via-[#e9dfc8] to-[#cdbf9f] overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={productImageUrl(sp, "Medium")}
                     alt={sp.name}
                     fill
                     sizes="(max-width: 1024px) 50vw, 22vw"
-                    className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                        />
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                  />
                 </div>
                 <div className="p-4">
                   <div className="tag text-[#6b655a] mb-1">{sp.sku}</div>

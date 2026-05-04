@@ -69,7 +69,7 @@ export default function Hero() {
             ))}
           </span>
           <span className="hero-merge-right">
-            {"ZONE".split("").map((ch, i) => (
+            {"ZO".split("").map((ch, i) => (
               <span
                 key={`z-${i}`}
                 className={`hero-letter ${active ? `special-${active}` : ""}`}
@@ -83,6 +83,22 @@ export default function Hero() {
                 {ch}
               </span>
             ))}
+            <span className="relative inline-block">
+              {"NE".split("").map((ch, i) => (
+                <span
+                  key={`z-${i + 2}`}
+                  className={`hero-letter ${active ? `special-${active}` : ""}`}
+                  style={
+                    {
+                      "--float-delay": `${1600 + (i + 6) * 180}ms`,
+                      "--special-delay": `${(i + 6) * 90}ms`,
+                    } as React.CSSProperties
+                  }
+                >
+                  {ch}
+                </span>
+              ))}
+            </span>
           </span>
         </h1>
       </div>
@@ -128,7 +144,7 @@ function HeroAccents() {
 
       {/* Filled white circles — synced 7.5s cycle (2.5s active, 5s gone) */}
       <div className="hero-circle-blink absolute top-1/3 -left-4 md:-left-10 w-52 h-52 md:w-[22rem] md:h-[22rem] rounded-full bg-white" />
-      <div className="hero-circle-pop absolute -bottom-48 -right-6 md:-right-10 w-64 h-64 md:w-[28rem] md:h-[28rem]">
+      <div className="hero-circle-pop absolute bottom-[28rem] md:bottom-[36rem] -right-6 md:-right-10 w-64 h-64 md:w-[28rem] md:h-[28rem]">
         <ClockDial />
       </div>
 

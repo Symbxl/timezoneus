@@ -55,6 +55,56 @@ export const CATEGORY_LABEL: Record<ProductCategory, string> =
 
 export const NAV_PRODUCT_CATEGORIES = CATEGORIES.filter((c) => c.inNav);
 
+// ── Watch series (collections) ────────────────────────────────────────────
+// Watches all share `category: "watches"`. Series is a secondary dimension
+// derived from name/SKU keywords. Source-of-truth mapping lives behind the
+// authenticated SaaS API on timezoneus.com — until that's wired up we use
+// keyword heuristics with Executive Series as the flagship default.
+
+export type WatchSeries =
+  | "executive-series"
+  | "digi-clips"
+  | "rectangle-series"
+  | "sapphire-series"
+  | "swiss-series"
+  | "tahoe-series"
+  | "union-made"
+  | "value-sport";
+
+export const WATCH_SERIES: { key: WatchSeries; label: string }[] = [
+  { key: "executive-series", label: "Executive Series" },
+  { key: "digi-clips", label: "Digi Clips" },
+  { key: "rectangle-series", label: "Rectangle Series" },
+  { key: "sapphire-series", label: "Sapphire Series" },
+  { key: "swiss-series", label: "Swiss Series" },
+  { key: "tahoe-series", label: "Tahoe Series" },
+  { key: "union-made", label: "Union Made Watches" },
+  { key: "value-sport", label: "Value & Sport Watches" },
+];
+
+const WATCH_SERIES_KEYS = new Set<string>(WATCH_SERIES.map((s) => s.key));
+
+export function isWatchSeries(v: string | null | undefined): v is WatchSeries {
+  return !!v && WATCH_SERIES_KEYS.has(v);
+}
+
+export function productSeries(p: Product): WatchSeries | null {
+  if (p.category !== "watches") return null;
+  const blob = `${p.slug} ${p.sku} ${p.name}`.toLowerCase();
+  // Order matters — most specific keywords first so e.g. a "rectangle union watch"
+  // is bucketed as Rectangle (the more distinctive line) rather than Union.
+  if (/\brectangle\b|\brectangular\b/.test(blob)) return "rectangle-series";
+  if (/\bdigi\b|\blcd\b|\bclip\b|carabin/.test(blob)) return "digi-clips";
+  if (/\bswiss\b/.test(blob)) return "swiss-series";
+  if (/\bunion\b|\butzco\b|^u\d/.test(blob)) return "union-made";
+  if (/sapphire/.test(blob)) return "sapphire-series";
+  if (/tahoe/.test(blob)) return "tahoe-series";
+  if (/\bvalue\b|\bsport\b|silicon|rubber|plastic-watch|color-process/.test(blob))
+    return "value-sport";
+  // Default: flagship Executive Series
+  return "executive-series";
+}
+
 // Used as the URL segment under /product/<id>. Derived from SKU so it's stable
 // and unique (slugs collide — multiple products share a slug but never a SKU).
 export function productId(p: Product): string {

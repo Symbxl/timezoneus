@@ -394,3 +394,41 @@ details > summary { list-style: none; cursor: pointer; }
 details > summary::-webkit-details-marker { display: none; }
 details[open] .faq-plus::before { content: "−"; }
 .faq-plus::before { content: "+"; }
+
+/* Long-form prose for compliance/legal pages (Prop 65, etc.) */
+.prop65-prose h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.prop65-prose h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  line-height: 1.1;
+  color: var(--color-brass);
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+}
+.prop65-prose h3:first-of-type { border-top: 0; padding-top: 0; }
+.prop65-prose p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-ink-soft);
+  margin-bottom: 1.1rem;
+}
+.prop65-prose a {
+  color: var(--color-brass);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+.prop65-prose a:hover { color: var(--color-brass-bright); }

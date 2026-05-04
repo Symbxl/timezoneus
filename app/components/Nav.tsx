@@ -58,17 +58,17 @@ const MENUS: Menu[] = [
     align: "right",
     items: [
       { label: "Case Studies", href: "/case-studies" },
-      { label: "Distributor Tools", href: "#distributor-tools" },
-      { label: "Prop 65", href: "#prop-65" },
+      { label: "Distributor Tools", href: "/order-catalog" },
+      { label: "Prop 65", href: "/prop-65" },
     ],
   },
   {
     key: "info",
     label: "General Info",
-    href: "#general-info",
+    href: "/general-info",
     align: "right",
     items: [
-      { label: "About / General Info", href: "#general-info" },
+      { label: "About / General Info", href: "/general-info" },
       { label: "Custom Sourcing", href: "#custom-sourcing" },
       { label: "Custom Packaging", href: "#custom-packaging" },
       { label: "Contact", href: "/#contact" },
