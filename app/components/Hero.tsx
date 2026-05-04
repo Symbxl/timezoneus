@@ -42,7 +42,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-[78vh] md:min-h-[88vh] flex items-end pt-32 md:pt-44 pb-10 md:pb-16 px-6 md:px-10 overflow-hidden"
+      className="relative min-h-[78vh] md:min-h-[88vh] flex items-end pt-32 md:pt-44 pb-0 px-6 md:px-10 overflow-x-clip"
     >
       {/* Sprinkled white accents — absolute over the full section, behind everything */}
       <HeroAccents />
@@ -93,7 +93,7 @@ export default function Hero() {
         </div>
 
         <h1
-          className="display leading-[0.84] tracking-[-0.04em] select-none whitespace-nowrap"
+          className="display leading-[0.84] tracking-[-0.04em] select-none whitespace-nowrap translate-y-10 md:translate-y-20"
           style={{ fontSize: "clamp(4rem, 15.5vw, 18rem)" }}
         >
           <span className="hero-merge-left">
