@@ -59,7 +59,7 @@ export default function HeroSpotlight() {
   return (
     <section
       ref={ref}
-      className="px-0 md:px-6 pt-56 md:pt-80 pb-24 md:pb-32 flex items-center justify-center"
+      className="px-0 md:px-6 pt-28 md:pt-32 pb-16 md:pb-20 flex items-center justify-center"
     >
       <div className="w-full max-w-[1800px]">
         <div

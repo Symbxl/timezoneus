@@ -8,9 +8,18 @@ import { useEffect, useRef, useState } from "react";
 const HEADLINE_LINE_1 = ["We", "make", "the"];
 const HEADLINE_LINE_2 = ["merch", "you", "want."];
 
+const CUSTOM_SOURCING_SLIDES = [
+  "/custom-sourcing.png",
+  "/custom-slide-two.png",
+  "/custom-slide-three.png",
+  "/custom-slide-four.png",
+];
+const SLIDE_DURATION_MS = 4500;
+
 export default function MerchSpotlight() {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
+  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     const el = ref.current;
@@ -26,6 +35,14 @@ export default function MerchSpotlight() {
     );
     obs.observe(el);
     return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setSlide((s) => (s + 1) % CUSTOM_SOURCING_SLIDES.length),
+      SLIDE_DURATION_MS,
+    );
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -84,8 +101,6 @@ export default function MerchSpotlight() {
               ? "inset(0% 0% 0% 0% round var(--banner-radius, 1rem))"
               : "inset(0% 0% 100% 0% round var(--banner-radius, 1rem))",
             transitionProperty: "opacity, transform, filter, clip-path",
-            cursor:
-              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><defs><radialGradient id='l' cx='32%25' cy='32%25' r='78%25'><stop offset='0%25' stop-color='%23ecfccb'/><stop offset='40%25' stop-color='%23a3e635'/><stop offset='82%25' stop-color='%2365a30d'/><stop offset='100%25' stop-color='%233f6212'/></radialGradient><radialGradient id='leaf' cx='30%25' cy='30%25' r='80%25'><stop offset='0%25' stop-color='%2384cc16'/><stop offset='100%25' stop-color='%233f6212'/></radialGradient></defs><ellipse cx='20' cy='34' rx='11' ry='2' fill='%23000' opacity='0.18'/><ellipse cx='20' cy='22' rx='14.5' ry='13.5' fill='url(%23l)'/><ellipse cx='13.5' cy='14.5' rx='4' ry='2.4' fill='%23ffffff' opacity='0.55'/><ellipse cx='12' cy='13.5' rx='1.4' ry='0.9' fill='%23ffffff' opacity='0.85'/><path d='M22 9 Q27 3 32 5 Q29 11 23 11 Z' fill='url(%23leaf)' stroke='%233f6212' stroke-width='0.4'/><line x1='20' y1='10' x2='22.5' y2='8.5' stroke='%233f6212' stroke-width='1.6' stroke-linecap='round'/></svg>\") 20 22, pointer",
           }}
         >
           {/* Backdrop — drop a JPG/PNG at /public/merch-hero.jpg to use as the background.
@@ -94,11 +109,16 @@ export default function MerchSpotlight() {
             aria-hidden="true"
             className="absolute inset-0 bg-gradient-to-br from-[#1a1815] via-[#0e0d0b] to-[#3a3a2a]"
           />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/custom-sourcing.png')" }}
-          />
+          {CUSTOM_SOURCING_SLIDES.map((src, i) => (
+            <div
+              key={src}
+              aria-hidden="true"
+              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-out ${
+                i === slide ? "opacity-100" : "opacity-0"
+              }`}
+              style={{ backgroundImage: `url('${src}')` }}
+            />
+          ))}
           {/* Soft vignette over the photo so the white circle stays the focal point */}
           <div
             aria-hidden="true"
@@ -148,6 +168,21 @@ export default function MerchSpotlight() {
                 className="absolute -inset-3 rounded-full border border-[#0e0d0b]/0 group-hover:border-[#0e0d0b]/40 transition-colors"
               />
             </div>
+          </div>
+
+          {/* Slide indicators */}
+          <div className="absolute bottom-5 md:bottom-7 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+            {CUSTOM_SOURCING_SLIDES.map((_, i) => (
+              <span
+                key={i}
+                aria-hidden="true"
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === slide
+                    ? "w-8 bg-white"
+                    : "w-1.5 bg-white/40"
+                }`}
+              />
+            ))}
           </div>
         </a>
       </div>

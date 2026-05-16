@@ -1,14 +1,5 @@
 export default function Marquee() {
-  const items = [
-    "Custom Dials",
-    "Swiss & Japanese Movements",
-    "Co-branded Editions",
-    "Sapphire Crystal",
-    "Made for Brands",
-    "Sub-second Lead Times",
-    "MOQ from 100",
-    "Box, Booklet, Bracelet",
-  ];
+  const items = ["MERCH.", "Built for Brands"];
   const all = [...items, ...items, ...items];
   return (
     <section
