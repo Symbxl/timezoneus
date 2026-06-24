@@ -1,9 +1,12 @@
+import Image from "next/image";
+
 type Card = {
   num?: string;
   title: string;
   sub: string;
   href: string;
   cursor: string;
+  img: string;
   wide?: boolean;
   tall?: boolean;
 };
@@ -68,6 +71,9 @@ const CURSORS = {
   cannabis: cur(
     "<path d='M20 6 L23 13 L20 20 L17 13 Z'/><path d='M20 13 L26 17 L23 24 L17 24 L14 17 Z'/><path d='M14 17 L8 23 L14 25'/><path d='M26 17 L32 23 L26 25'/><line x1='20' y1='20' x2='20' y2='34'/>",
   ),
+  watch: cur(
+    "<circle cx='20' cy='20' r='9'/><path d='M16 11 L15 5 L25 5 L24 11'/><path d='M16 29 L15 35 L25 35 L24 29'/><line x1='20' y1='20' x2='20' y2='15'/><line x1='20' y1='20' x2='24' y2='20'/>",
+  ),
 };
 
 const cards: Card[] = [
@@ -77,6 +83,7 @@ const cards: Card[] = [
     sub: "Wallets, mounts & more",
     href: "/products?category=tech",
     cursor: CURSORS.phone,
+    img: "/categories/01-phonewear.png",
   },
   {
     num: "02",
@@ -84,6 +91,7 @@ const cards: Card[] = [
     sub: "Bracelets, pins & lanyards",
     href: "/products?category=silicone",
     cursor: CURSORS.bracelet,
+    img: "/categories/02-awareness.png",
   },
   {
     num: "03",
@@ -91,6 +99,7 @@ const cards: Card[] = [
     sub: "Coins, pins, key tags",
     href: "/products?category=emblems",
     cursor: CURSORS.coin,
+    img: "/categories/03-emblematic-metals.png",
   },
   {
     num: "04",
@@ -98,6 +107,7 @@ const cards: Card[] = [
     sub: "Make your merch shine",
     href: "/products",
     cursor: CURSORS.gem,
+    img: "/categories/04-baubles.png",
   },
   {
     wide: true,
@@ -105,6 +115,7 @@ const cards: Card[] = [
     sub: "Make any drink a party",
     href: "/products?category=drinkware",
     cursor: CURSORS.martini,
+    img: "/categories/05-margarita-clip.png",
   },
   {
     num: "07",
@@ -112,6 +123,7 @@ const cards: Card[] = [
     sub: "Frames, mirrors & plaques",
     href: "/products?category=acrylic",
     cursor: CURSORS.frame,
+    img: "/categories/07-acrylic.png",
   },
   {
     num: "08",
@@ -119,6 +131,7 @@ const cards: Card[] = [
     sub: "Trendy shades & accessories",
     href: "/products?category=sunglasses",
     cursor: CURSORS.sunglasses,
+    img: "/categories/08-sunglasses.png",
   },
   {
     num: "09",
@@ -126,6 +139,7 @@ const cards: Card[] = [
     sub: "Hit the swatch — every time",
     href: "#custom-sourcing",
     cursor: CURSORS.swatch,
+    img: "/categories/09-pantone.png",
   },
   {
     num: "10",
@@ -133,6 +147,7 @@ const cards: Card[] = [
     sub: "Foot merch that doesn't stink",
     href: "#custom-sourcing",
     cursor: CURSORS.sock,
+    img: "/categories/10-socks.png",
   },
   {
     num: "11",
@@ -140,13 +155,15 @@ const cards: Card[] = [
     sub: "Bags, boxes, tubes & more",
     href: "/products?category=packaging",
     cursor: CURSORS.box,
+    img: "/categories/11-packaging.png",
   },
   {
     wide: true,
-    title: "Boozie Hose",
-    sub: "Everything you need to keep things flowing",
-    href: "/products?category=drinkware",
-    cursor: CURSORS.beer,
+    title: "Watches",
+    sub: "Custom-branded timepieces for every wrist",
+    href: "/products?category=watches",
+    cursor: CURSORS.watch,
+    img: "/categories/06-watches.png",
   },
   {
     num: "12",
@@ -154,6 +171,7 @@ const cards: Card[] = [
     sub: "LED signs, tin tackers & more",
     href: "/products",
     cursor: CURSORS.display,
+    img: "/categories/12-displays.png",
   },
   {
     num: "13",
@@ -161,6 +179,7 @@ const cards: Card[] = [
     sub: "Drink better",
     href: "/products?category=drinkware",
     cursor: CURSORS.ice,
+    img: "/categories/13-ice-molds.png",
   },
   {
     num: "14",
@@ -168,6 +187,7 @@ const cards: Card[] = [
     sub: "Gifts & gear",
     href: "/products",
     cursor: CURSORS.tie,
+    img: "/categories/14-for-him.png",
   },
   {
     num: "16",
@@ -176,6 +196,7 @@ const cards: Card[] = [
     sub: "Compliant, custom, and on-brand. Boxes, exit bags, pre-roll tubes, displays — built for dispensary shelves and grower marketing alike.",
     href: "/products?category=cannabis",
     cursor: CURSORS.cannabis,
+    img: "/categories/16-cannabis.png",
   },
   {
     num: "15",
@@ -183,6 +204,7 @@ const cards: Card[] = [
     sub: "Curated picks for every occasion",
     href: "/products",
     cursor: CURSORS.heart,
+    img: "/categories/15-for-her.png",
   },
 ];
 
@@ -207,37 +229,37 @@ function Tile({ card }: { card: Card }) {
       <div
         className={`relative overflow-hidden rounded-3xl bg-[var(--color-bone)] border border-[var(--color-ink)]/15 group-hover:border-[var(--color-brass)]/60 transition-colors ${boxAspect}`}
       >
+        {/* Category photo fills the box edge-to-edge */}
+        <Image
+          src={card.img}
+          alt={card.title}
+          fill
+          sizes={
+            isFeature
+              ? "(max-width: 640px) 100vw, 100vw"
+              : "(max-width: 640px) 100vw, (max-width: 1600px) 50vw, 780px"
+          }
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+        />
+
+        {/* Scrim at the top keeps the corner tag legible against bright photos */}
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/35 to-transparent pointer-events-none"
+        />
+
         {/* Top row: number + featured tag */}
         <div className="absolute top-5 left-5 right-5 md:top-7 md:left-7 md:right-7 flex items-start justify-between gap-3">
           {card.num ? (
-            <span className="tag text-[var(--color-stone)]">
-              {card.num} <span className="text-[var(--color-ink)]/30">/ 16</span>
+            <span className="tag text-white/90">
+              {card.num} <span className="text-white/50">/ 16</span>
             </span>
           ) : (
-            <span className="tag text-[var(--color-brass)] uppercase tracking-[0.18em]">
+            <span className="tag text-[var(--color-brass)] uppercase tracking-[0.18em] drop-shadow">
               ✦ Featured
             </span>
           )}
         </div>
-
-        {/* Big faded number in the center as a backdrop */}
-        {card.num ? (
-          <span
-            aria-hidden="true"
-            className={`absolute inset-0 flex items-center justify-center display leading-none text-[var(--color-ink)]/[0.06] group-hover:text-[var(--color-brass)]/15 transition-colors select-none ${
-              isFeature ? "text-[16rem] md:text-[22rem]" : "text-[11rem] md:text-[14rem]"
-            }`}
-          >
-            {card.num}
-          </span>
-        ) : (
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 flex items-center justify-center display text-[10rem] md:text-[14rem] leading-none text-[var(--color-brass)]/10 group-hover:text-[var(--color-brass)]/25 transition-colors select-none"
-          >
-            ✦
-          </span>
-        )}
 
         {/* Brass accent bar — slides down the left edge on hover */}
         <span
