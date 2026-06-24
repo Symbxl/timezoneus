@@ -83,7 +83,7 @@ const cards: Card[] = [
     sub: "Wallets, mounts & more",
     href: "/products?category=tech",
     cursor: CURSORS.phone,
-    img: "/categories/01-phonewear.png",
+    img: "/categories/01-phonewear.webp",
   },
   {
     num: "02",
@@ -91,7 +91,7 @@ const cards: Card[] = [
     sub: "Bracelets, pins & lanyards",
     href: "/products?category=silicone",
     cursor: CURSORS.bracelet,
-    img: "/categories/02-awareness.png",
+    img: "/categories/02-awareness.webp",
   },
   {
     num: "03",
@@ -99,7 +99,7 @@ const cards: Card[] = [
     sub: "Coins, pins, key tags",
     href: "/products?category=emblems",
     cursor: CURSORS.coin,
-    img: "/categories/03-emblematic-metals.png",
+    img: "/categories/03-emblematic-metals.webp",
   },
   {
     num: "04",
@@ -107,7 +107,7 @@ const cards: Card[] = [
     sub: "Make your merch shine",
     href: "/products",
     cursor: CURSORS.gem,
-    img: "/categories/04-baubles.png",
+    img: "/categories/04-baubles.webp",
   },
   {
     wide: true,
@@ -115,7 +115,7 @@ const cards: Card[] = [
     sub: "Make any drink a party",
     href: "/products?category=drinkware",
     cursor: CURSORS.martini,
-    img: "/categories/05-margarita-clip.png",
+    img: "/categories/05-margarita-clip.webp",
   },
   {
     num: "07",
@@ -123,7 +123,7 @@ const cards: Card[] = [
     sub: "Frames, mirrors & plaques",
     href: "/products?category=acrylic",
     cursor: CURSORS.frame,
-    img: "/categories/07-acrylic.png",
+    img: "/categories/07-acrylic.webp",
   },
   {
     num: "08",
@@ -131,7 +131,7 @@ const cards: Card[] = [
     sub: "Trendy shades & accessories",
     href: "/products?category=sunglasses",
     cursor: CURSORS.sunglasses,
-    img: "/categories/08-sunglasses.png",
+    img: "/categories/08-sunglasses.webp",
   },
   {
     num: "09",
@@ -139,7 +139,7 @@ const cards: Card[] = [
     sub: "Hit the swatch — every time",
     href: "#custom-sourcing",
     cursor: CURSORS.swatch,
-    img: "/categories/09-pantone.png",
+    img: "/categories/09-pantone.webp",
   },
   {
     num: "10",
@@ -147,7 +147,7 @@ const cards: Card[] = [
     sub: "Foot merch that doesn't stink",
     href: "#custom-sourcing",
     cursor: CURSORS.sock,
-    img: "/categories/10-socks.png",
+    img: "/categories/10-socks.webp",
   },
   {
     num: "11",
@@ -155,7 +155,7 @@ const cards: Card[] = [
     sub: "Bags, boxes, tubes & more",
     href: "/products?category=packaging",
     cursor: CURSORS.box,
-    img: "/categories/11-packaging.png",
+    img: "/categories/11-packaging.webp",
   },
   {
     wide: true,
@@ -163,7 +163,7 @@ const cards: Card[] = [
     sub: "Custom-branded timepieces for every wrist",
     href: "/products?category=watches",
     cursor: CURSORS.watch,
-    img: "/categories/06-watches.png",
+    img: "/categories/06-watches.webp",
   },
   {
     num: "12",
@@ -171,7 +171,7 @@ const cards: Card[] = [
     sub: "LED signs, tin tackers & more",
     href: "/products",
     cursor: CURSORS.display,
-    img: "/categories/12-displays.png",
+    img: "/categories/12-displays.webp",
   },
   {
     num: "13",
@@ -179,7 +179,7 @@ const cards: Card[] = [
     sub: "Drink better",
     href: "/products?category=drinkware",
     cursor: CURSORS.ice,
-    img: "/categories/13-ice-molds.png",
+    img: "/categories/13-ice-molds.webp",
   },
   {
     num: "14",
@@ -187,7 +187,7 @@ const cards: Card[] = [
     sub: "Gifts & gear",
     href: "/products",
     cursor: CURSORS.tie,
-    img: "/categories/14-for-him.png",
+    img: "/categories/14-for-him.webp",
   },
   {
     num: "16",
@@ -196,7 +196,7 @@ const cards: Card[] = [
     sub: "Compliant, custom, and on-brand. Boxes, exit bags, pre-roll tubes, displays — built for dispensary shelves and grower marketing alike.",
     href: "/products?category=cannabis",
     cursor: CURSORS.cannabis,
-    img: "/categories/16-cannabis.png",
+    img: "/categories/16-cannabis.webp",
   },
   {
     num: "15",
@@ -204,7 +204,7 @@ const cards: Card[] = [
     sub: "Curated picks for every occasion",
     href: "/products",
     cursor: CURSORS.heart,
-    img: "/categories/15-for-her.png",
+    img: "/categories/15-for-her.webp",
   },
 ];
 
@@ -229,11 +229,15 @@ function Tile({ card }: { card: Card }) {
       <div
         className={`relative overflow-hidden rounded-3xl bg-[var(--color-bone)] border border-[var(--color-ink)]/15 group-hover:border-[var(--color-brass)]/60 transition-colors ${boxAspect}`}
       >
-        {/* Category photo fills the box edge-to-edge */}
+        {/* Category photo fills the box edge-to-edge. Served straight from
+           /public (unoptimized) — the files are already small WebPs, and this
+           sidesteps the on-the-fly image optimizer so they load instantly and
+           reliably as you scroll. */}
         <Image
           src={card.img}
           alt={card.title}
           fill
+          unoptimized
           sizes={
             isFeature
               ? "(max-width: 640px) 100vw, 100vw"
