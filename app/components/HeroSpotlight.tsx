@@ -9,8 +9,8 @@ type Slide =
 
 const SLIDES: Slide[] = [
   { type: "video", src: "/hero.mp4", duration: 7500 },
-  { type: "image", src: "/custom-sourcing.png", duration: 4500 },
-  { type: "image", src: "/custom-slide-three.png", duration: 4500 },
+  { type: "image", src: "/custom-sourcing.webp", duration: 4500 },
+  { type: "image", src: "/custom-slide-three.webp", duration: 4500 },
 ];
 
 export default function HeroSpotlight() {
@@ -95,8 +95,8 @@ export default function HeroSpotlight() {
                   muted
                   loop
                   playsInline
-                  preload="auto"
-                  poster=""
+                  preload="metadata"
+                  poster="/hero-poster.webp"
                 />
               );
             }
@@ -107,7 +107,7 @@ export default function HeroSpotlight() {
                 alt=""
                 fill
                 sizes="(max-width: 1800px) 100vw, 1800px"
-                quality={95}
+                quality={72}
                 priority={i === 0}
                 className={`${baseCls} object-cover`}
               />

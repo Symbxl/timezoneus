@@ -5,14 +5,18 @@
   --color-bone-deep: #0e0e0e;
   --color-ink: #ffffff;
   --color-ink-soft: #ebebeb;
-  --color-brass: #d4a44a;
-  --color-brass-bright: #f0c267;
+  /* Accent — sampled from the TimeZone logo (light sky blue).
+     Kept the "brass" variable name so existing usages resolve unchanged. */
+  --color-brass: #7fc4d4;
+  --color-brass-bright: #a3d9e6;
   --color-rust: #e26a4c;
   --color-stone: #a8a297;
 
   --font-display: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
   --font-body: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  /* No serif: zero.nyc uses only Neue Montreal + GT America Mono. Kept the
+     variable so any `font-serif` utility resolves to Neue Montreal, not Georgia. */
+  --font-serif: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-mono-zero), ui-monospace, "JetBrains Mono", monospace;
 }
 

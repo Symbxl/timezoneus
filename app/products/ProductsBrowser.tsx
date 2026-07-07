@@ -229,7 +229,7 @@ export default function ProductsBrowser() {
       <section className="px-6 md:px-10 pb-24 md:pb-32 max-w-[1600px] mx-auto">
         {visible.length === 0 ? (
           <div className="border border-[var(--color-ink)]/15 p-12 text-center">
-            <div className="font-serif text-3xl mb-2">No matches.</div>
+            <div className="text-3xl mb-2">No matches.</div>
             <div className="text-[var(--color-stone)] text-sm mb-6">
               Try a different search term or pick another category.
             </div>

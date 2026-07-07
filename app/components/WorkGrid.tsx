@@ -66,7 +66,7 @@ function Tile({ s, index }: { s: Series; index: number }) {
   return (
     <a
       href={s.href}
-      className="tile group relative block overflow-hidden bg-[#0a0a0a] text-white border border-white/10 hover:border-[#d4a44a]/70 transition-all duration-500"
+      className="tile group relative block overflow-hidden bg-[#0a0a0a] text-white border border-white/10 hover:border-[#7fc4d4]/70 transition-all duration-500"
     >
       <div className="flex flex-row items-stretch h-full min-h-[220px] md:min-h-[280px]">
         {/* Image column — photo fills the box edge-to-edge */}
@@ -83,7 +83,7 @@ function Tile({ s, index }: { s: Series; index: number }) {
         {/* Content column — black with editorial typography */}
         <div className="relative flex-1 flex flex-col justify-between p-6 md:p-8 overflow-hidden">
           <div className="flex items-start justify-between gap-3">
-            <span className="display text-3xl md:text-4xl leading-none text-white/35 group-hover:text-[#d4a44a] transition-colors">
+            <span className="display text-3xl md:text-4xl leading-none text-white/35 group-hover:text-[#7fc4d4] transition-colors">
               {num}
             </span>
             <span className="tag text-white/45 uppercase tracking-[0.18em]">
@@ -99,7 +99,7 @@ function Tile({ s, index }: { s: Series; index: number }) {
               {s.blurb}
             </p>
 
-            <div className="mt-5 md:mt-6 flex items-center gap-3 tag text-white/60 group-hover:text-[#d4a44a] transition-colors">
+            <div className="mt-5 md:mt-6 flex items-center gap-3 tag text-white/60 group-hover:text-[#7fc4d4] transition-colors">
               <span>View series</span>
               <span
                 aria-hidden="true"
@@ -113,12 +113,12 @@ function Tile({ s, index }: { s: Series; index: number }) {
           {/* Brass accent bar — slides down the right edge of the text panel on hover */}
           <span
             aria-hidden="true"
-            className="absolute right-0 top-0 bottom-0 w-[2px] bg-[#d4a44a] origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out"
+            className="absolute right-0 top-0 bottom-0 w-[2px] bg-[#7fc4d4] origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out"
           />
           {/* Faint number watermark in the bottom-right on hover */}
           <span
             aria-hidden="true"
-            className="absolute -right-3 -bottom-12 display text-[12rem] leading-none text-[#d4a44a]/0 group-hover:text-[#d4a44a]/[0.06] transition-colors duration-700 select-none pointer-events-none"
+            className="absolute -right-3 -bottom-12 display text-[12rem] leading-none text-[#7fc4d4]/0 group-hover:text-[#7fc4d4]/[0.06] transition-colors duration-700 select-none pointer-events-none"
           >
             {num}
           </span>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 // On md+, headline reads as two explicit lines:
@@ -9,10 +10,10 @@ const HEADLINE_LINE_1 = ["We", "make", "the"];
 const HEADLINE_LINE_2 = ["merch", "you", "want."];
 
 const CUSTOM_SOURCING_SLIDES = [
-  "/custom-sourcing.png",
-  "/custom-slide-two.png",
-  "/custom-slide-three.png",
-  "/custom-slide-four.png",
+  "/custom-sourcing.webp",
+  "/custom-slide-two.webp",
+  "/custom-slide-three.webp",
+  "/custom-slide-four.webp",
 ];
 const SLIDE_DURATION_MS = 4500;
 
@@ -110,13 +111,17 @@ export default function MerchSpotlight() {
             className="absolute inset-0 bg-gradient-to-br from-[#1a1815] via-[#0e0d0b] to-[#3a3a2a]"
           />
           {CUSTOM_SOURCING_SLIDES.map((src, i) => (
-            <div
+            <Image
               key={src}
+              src={src}
+              alt=""
               aria-hidden="true"
-              className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-out ${
+              fill
+              sizes="(max-width: 1600px) 100vw, 1600px"
+              quality={72}
+              className={`object-cover transition-opacity duration-1000 ease-out ${
                 i === slide ? "opacity-100" : "opacity-0"
               }`}
-              style={{ backgroundImage: `url('${src}')` }}
             />
           ))}
           {/* Soft vignette over the photo so the white circle stays the focal point */}

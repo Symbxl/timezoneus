@@ -136,8 +136,7 @@ function EmblematicsIcon() {
         x="32"
         y="32"
         textAnchor="middle"
-        fontFamily="Instrument Serif"
-        fontStyle="italic"
+        style={{ fontFamily: "var(--font-display)" }}
         fontSize="14"
         fill="currentColor"
       >

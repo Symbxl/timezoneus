@@ -11,15 +11,7 @@ export default function Prop65Page() {
     <main className="relative min-h-screen">
       <Nav />
 
-      <div
-        className="prop65-page"
-        style={
-          {
-            ["--color-brass" as string]: "#4a90d4",
-            ["--color-brass-bright" as string]: "#6aa9e8",
-          } as React.CSSProperties
-        }
-      >
+      <div className="prop65-page">
       {/* HERO */}
       <section className="px-6 md:px-10 pt-32 md:pt-40 pb-12 md:pb-16 max-w-[1100px] mx-auto">
         <div className="tag text-[var(--color-brass)] mb-5 flex items-center gap-3">
