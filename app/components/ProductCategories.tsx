@@ -5,75 +5,9 @@ type Card = {
   title: string;
   sub: string;
   href: string;
-  cursor: string;
   img: string;
   wide?: boolean;
   tall?: boolean;
-};
-
-// Build a CSS `cursor:` value from an SVG body. Stroke is dark ink so the
-// cursor reads against the bone background. These are placeholders — swap in
-// brand-final line-art when ready.
-function cur(body: string): string {
-  const svg =
-    "<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40' fill='none' stroke='%230e0d0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" +
-    body +
-    "</svg>";
-  return `url("data:image/svg+xml;utf8,${svg}") 20 20, pointer`;
-}
-
-const CURSORS = {
-  phone: cur(
-    "<rect x='12' y='5' width='16' height='30' rx='3'/><line x1='17' y1='30' x2='23' y2='30'/>",
-  ),
-  bracelet: cur(
-    "<circle cx='20' cy='20' r='12'/><line x1='8' y1='20' x2='32' y2='20'/>",
-  ),
-  coin: cur(
-    "<circle cx='20' cy='20' r='13'/><path d='M20 12 L22 17 L27 17 L23 21 L24 26 L20 23 L16 26 L17 21 L13 17 L18 17 Z'/>",
-  ),
-  gem: cur(
-    "<path d='M20 7 L30 17 L20 34 L10 17 Z'/><line x1='10' y1='17' x2='30' y2='17'/><line x1='15' y1='17' x2='20' y2='7'/><line x1='25' y1='17' x2='20' y2='7'/>",
-  ),
-  martini: cur(
-    "<path d='M9 9 L31 9 L20 22 Z'/><line x1='20' y1='22' x2='20' y2='32'/><line x1='14' y1='32' x2='26' y2='32'/>",
-  ),
-  frame: cur(
-    "<rect x='7' y='9' width='26' height='22' rx='1'/><rect x='12' y='14' width='16' height='12'/>",
-  ),
-  sunglasses: cur(
-    "<circle cx='13' cy='22' r='6'/><circle cx='27' cy='22' r='6'/><path d='M19 22 Q20 20 21 22'/><line x1='7' y1='18' x2='4' y2='15'/><line x1='33' y1='18' x2='36' y2='15'/>",
-  ),
-  swatch: cur(
-    "<rect x='10' y='7' width='14' height='26' rx='1'/><line x1='10' y1='20' x2='24' y2='20'/>",
-  ),
-  sock: cur(
-    "<path d='M14 5 L14 22 L7 30 Q7 35 13 35 L20 35 Q25 35 27 30 L27 5 Z'/><line x1='14' y1='10' x2='27' y2='10'/>",
-  ),
-  box: cur(
-    "<path d='M20 5 L34 12 L34 28 L20 35 L6 28 L6 12 Z'/><path d='M6 12 L20 19 L34 12'/><line x1='20' y1='19' x2='20' y2='35'/>",
-  ),
-  beer: cur(
-    "<path d='M10 9 L10 32 Q10 35 13 35 L23 35 Q26 35 26 32 L26 9 Z'/><path d='M26 14 L32 14 Q35 14 35 17 L35 25 Q35 28 32 28 L26 28'/>",
-  ),
-  display: cur(
-    "<rect x='5' y='9' width='30' height='20' rx='2'/><line x1='14' y1='34' x2='26' y2='34'/><line x1='20' y1='29' x2='20' y2='34'/>",
-  ),
-  ice: cur(
-    "<rect x='9' y='12' width='20' height='20'/><line x1='9' y1='12' x2='14' y2='7'/><line x1='29' y1='12' x2='34' y2='7'/><line x1='14' y1='7' x2='34' y2='7'/><line x1='34' y1='7' x2='34' y2='27'/><line x1='29' y1='32' x2='34' y2='27'/>",
-  ),
-  tie: cur(
-    "<path d='M16 6 L24 6 L26 13 L22 33 L18 33 L14 13 Z'/><line x1='16' y1='13' x2='24' y2='13'/>",
-  ),
-  heart: cur(
-    "<path d='M20 33 C8 23 6 13 13 9 C17 7 20 11 20 14 C20 11 23 7 27 9 C34 13 32 23 20 33 Z'/>",
-  ),
-  cannabis: cur(
-    "<path d='M20 6 L23 13 L20 20 L17 13 Z'/><path d='M20 13 L26 17 L23 24 L17 24 L14 17 Z'/><path d='M14 17 L8 23 L14 25'/><path d='M26 17 L32 23 L26 25'/><line x1='20' y1='20' x2='20' y2='34'/>",
-  ),
-  watch: cur(
-    "<circle cx='20' cy='20' r='9'/><path d='M16 11 L15 5 L25 5 L24 11'/><path d='M16 29 L15 35 L25 35 L24 29'/><line x1='20' y1='20' x2='20' y2='15'/><line x1='20' y1='20' x2='24' y2='20'/>",
-  ),
 };
 
 const cards: Card[] = [
@@ -82,7 +16,6 @@ const cards: Card[] = [
     title: "Phonewear",
     sub: "Wallets, mounts & more",
     href: "/products?category=tech",
-    cursor: CURSORS.phone,
     img: "/categories/01-phonewear.webp",
   },
   {
@@ -90,7 +23,6 @@ const cards: Card[] = [
     title: "Awareness",
     sub: "Bracelets, pins & lanyards",
     href: "/products?category=silicone",
-    cursor: CURSORS.bracelet,
     img: "/categories/02-awareness.webp",
   },
   {
@@ -98,7 +30,6 @@ const cards: Card[] = [
     title: "Emblematic Metals",
     sub: "Coins, pins, key tags",
     href: "/products?category=emblems",
-    cursor: CURSORS.coin,
     img: "/categories/03-emblematic-metals.webp",
   },
   {
@@ -106,7 +37,6 @@ const cards: Card[] = [
     title: "Bauble Blink",
     sub: "Make your merch shine",
     href: "/products",
-    cursor: CURSORS.gem,
     img: "/categories/04-baubles.webp",
   },
   {
@@ -114,7 +44,6 @@ const cards: Card[] = [
     title: "The Margarita Clip",
     sub: "Make any drink a party",
     href: "/products?category=drinkware",
-    cursor: CURSORS.martini,
     img: "/categories/05-margarita-clip.webp",
   },
   {
@@ -122,7 +51,6 @@ const cards: Card[] = [
     title: "Acrylic",
     sub: "Frames, mirrors & plaques",
     href: "/products?category=acrylic",
-    cursor: CURSORS.frame,
     img: "/categories/07-acrylic.webp",
   },
   {
@@ -130,7 +58,6 @@ const cards: Card[] = [
     title: "Sunglasses",
     sub: "Trendy shades & accessories",
     href: "/products?category=sunglasses",
-    cursor: CURSORS.sunglasses,
     img: "/categories/08-sunglasses.webp",
   },
   {
@@ -138,7 +65,6 @@ const cards: Card[] = [
     title: "Pantone Matched",
     sub: "Hit the swatch — every time",
     href: "#custom-sourcing",
-    cursor: CURSORS.swatch,
     img: "/categories/09-pantone.webp",
   },
   {
@@ -146,7 +72,6 @@ const cards: Card[] = [
     title: "Socks",
     sub: "Foot merch that doesn't stink",
     href: "#custom-sourcing",
-    cursor: CURSORS.sock,
     img: "/categories/10-socks.webp",
   },
   {
@@ -154,7 +79,6 @@ const cards: Card[] = [
     title: "Packaging",
     sub: "Bags, boxes, tubes & more",
     href: "/products?category=packaging",
-    cursor: CURSORS.box,
     img: "/categories/11-packaging.webp",
   },
   {
@@ -162,7 +86,6 @@ const cards: Card[] = [
     title: "Watches",
     sub: "Custom-branded timepieces for every wrist",
     href: "/products?category=watches",
-    cursor: CURSORS.watch,
     img: "/categories/06-watches.webp",
   },
   {
@@ -170,7 +93,6 @@ const cards: Card[] = [
     title: "Displays",
     sub: "LED signs, tin tackers & more",
     href: "/products",
-    cursor: CURSORS.display,
     img: "/categories/12-displays.webp",
   },
   {
@@ -178,7 +100,6 @@ const cards: Card[] = [
     title: "Ice Molds & Bar Mats",
     sub: "Drink better",
     href: "/products?category=drinkware",
-    cursor: CURSORS.ice,
     img: "/categories/13-ice-molds.webp",
   },
   {
@@ -186,7 +107,6 @@ const cards: Card[] = [
     title: "For Him",
     sub: "Gifts & gear",
     href: "/products",
-    cursor: CURSORS.tie,
     img: "/categories/14-for-him.webp",
   },
   {
@@ -195,7 +115,6 @@ const cards: Card[] = [
     title: "Cannabis Packaging & Merch",
     sub: "Compliant, custom, and on-brand. Boxes, exit bags, pre-roll tubes, displays — built for dispensary shelves and grower marketing alike.",
     href: "/products?category=cannabis",
-    cursor: CURSORS.cannabis,
     img: "/categories/16-cannabis.webp",
   },
   {
@@ -203,7 +122,6 @@ const cards: Card[] = [
     title: "For Her",
     sub: "Curated picks for every occasion",
     href: "/products",
-    cursor: CURSORS.heart,
     img: "/categories/15-for-her.webp",
   },
 ];
@@ -224,7 +142,6 @@ function Tile({ card }: { card: Card }) {
     <a
       href={card.href}
       className={`group block ${spanCls}`}
-      style={{ cursor: card.cursor }}
     >
       <div
         className={`relative overflow-hidden rounded-3xl bg-[var(--color-bone)] border border-[var(--color-ink)]/15 group-hover:border-[var(--color-brass)]/60 transition-colors ${boxAspect}`}
