@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/symbol/Desktop/timezone-us/app/layout\":[\"static/media/3a199cf00a93acb8-s.p.woff2\",\"static/media/dc03e58dafb0f94e-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
