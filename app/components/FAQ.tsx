@@ -23,7 +23,7 @@ const faqs: FAQ[] = [
   {
     category: "Warranty",
     q: "Do you handle warranties and post-sale service?",
-    a: "Every watch ships with a 2-year warranty serviced through our Edison, NJ workshop. White-label warranty cards available — your brand, our hands.",
+    a: "Every watch ships with a 2-year warranty serviced through our in-house workshop. White-label warranty cards available — your brand, our hands.",
   },
   {
     category: "Movements",

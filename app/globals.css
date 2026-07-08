@@ -436,3 +436,44 @@ details[open] .faq-plus::before { content: "−"; }
   word-break: break-word;
 }
 .prop65-prose a:hover { color: var(--color-brass-bright); }
+
+/* ─── Category card custom cursor ──────────────────────────────────────────
+   The hovered category swaps the pointer for its illustrated icon. The icon is
+   a single fixed element that follows the mouse (positioned in JS); these rules
+   only handle its look and the show/hide + native-cursor-hiding on hover. */
+.cc-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 112px;
+  height: 112px;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  transition: opacity 0.18s ease, scale 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  scale: 0.6;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+}
+.cc-cursor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+.cc-root.cc-on .cc-cursor {
+  opacity: 1;
+  scale: 1;
+}
+/* Hide the OS pointer only while an icon cursor is active over the cards. */
+.cc-root.cc-on [data-cursor],
+.cc-root.cc-on [data-cursor] * {
+  cursor: none;
+}
+@media (pointer: coarse) {
+  .cc-cursor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cc-cursor { transition: opacity 0.18s ease; scale: 1; }
+}

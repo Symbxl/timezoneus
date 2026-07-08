@@ -8,9 +8,10 @@ type Slide =
   | { type: "image"; src: string; duration: number };
 
 const SLIDES: Slide[] = [
-  { type: "video", src: "/hero.mp4", duration: 7500 },
-  { type: "image", src: "/custom-sourcing.webp", duration: 4500 },
-  { type: "image", src: "/custom-slide-three.webp", duration: 4500 },
+  { type: "image", src: "/1tz.png", duration: 4500 },
+  { type: "image", src: "/2tz.png", duration: 4500 },
+  { type: "image", src: "/3tz.png", duration: 4500 },
+  { type: "image", src: "/4tz.png", duration: 4500 },
 ];
 
 export default function HeroSpotlight() {

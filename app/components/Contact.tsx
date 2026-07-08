@@ -21,8 +21,8 @@ export default function Contact() {
           Let&rsquo;s build something.
         </h2>
         <p className="mt-8 text-lg md:text-xl text-white/55 max-w-[44ch] leading-snug">
-          Pitch us a brief, ask a question, or stop by the workshop in
-          Edison. We answer every email within 48 hours.
+          Pitch us a brief or ask a question. We answer every email
+          within 48 hours.
         </p>
 
         {/* Quick CTA cluster */}
@@ -48,45 +48,6 @@ export default function Contact() {
           </a>
         </div>
 
-        {/* Three-column contact grid */}
-        <div className="mt-20 md:mt-28 grid md:grid-cols-3 gap-px bg-white/15 border border-white/15">
-          <div className="bg-black p-7 md:p-9">
-            <div className="tag text-white/45 mb-4">New programs</div>
-            <a
-              href="mailto:hello@timezoneus.com"
-              className="display text-2xl md:text-[28px] link-underline text-[var(--color-brass)] block leading-tight"
-            >
-              hello@timezoneus.com
-            </a>
-            <p className="mt-3 text-sm text-white/50">
-              Briefs, RFPs, capsule projects.
-            </p>
-          </div>
-          <div className="bg-black p-7 md:p-9">
-            <div className="tag text-white/45 mb-4">Press</div>
-            <a
-              href="mailto:press@timezoneus.com"
-              className="display text-2xl md:text-[28px] link-underline text-white block leading-tight"
-            >
-              press@timezoneus.com
-            </a>
-            <p className="mt-3 text-sm text-white/50">
-              Features, interviews, launch coverage.
-            </p>
-          </div>
-          <div className="bg-black p-7 md:p-9">
-            <div className="tag text-white/45 mb-4">Workshop</div>
-            <p className="display text-2xl md:text-[28px] leading-tight text-white">
-              132 Industrial Way
-              <br />
-              Edison, NJ 08817
-            </p>
-            <p className="mt-3 text-sm text-white/50">
-              Mon–Fri, 9:00–18:00 ET. Visits by appointment.
-            </p>
-          </div>
-        </div>
-
         {/* Social + meta */}
         <div className="mt-20 md:mt-28 grid md:grid-cols-12 gap-6 items-end">
           <div className="md:col-span-5">
@@ -108,7 +69,7 @@ export default function Contact() {
           </div>
           <div className="md:col-span-7 md:text-right">
             <div className="tag text-white/40">
-              ✦ Est. 1991 · Made in New Jersey.
+              ✦ Est. 1991 · Made in the USA.
             </div>
           </div>
         </div>
