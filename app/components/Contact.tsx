@@ -1,3 +1,5 @@
+import ContactForm from "./ContactForm";
+
 export default function Contact() {
   return (
     <footer
@@ -20,57 +22,38 @@ export default function Contact() {
         <h2 className="display text-6xl md:text-8xl lg:text-[160px] leading-[0.84] max-w-[16ch] tracking-[-0.01em]">
           Let&rsquo;s build something.
         </h2>
-        <p className="mt-8 text-lg md:text-xl text-white/55 max-w-[44ch] leading-snug">
-          Pitch us a brief or ask a question. We answer every email
-          within 48 hours.
-        </p>
+        {/* Copy + form */}
+        <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,600px)] gap-12 lg:gap-20">
+          <div>
+            <p className="text-lg md:text-xl text-white/55 max-w-[44ch] leading-snug">
+              Pitch us a brief or ask a question. We answer every email
+              within 48 hours.
+            </p>
 
-        {/* Quick CTA cluster */}
-        <div className="mt-10 md:mt-14 flex flex-wrap gap-3">
-          <a
-            href="mailto:hello@timezoneus.com"
-            className="tag inline-flex items-center gap-2 bg-[var(--color-brass)] text-black px-5 py-3 hover:bg-[var(--color-brass-bright)] transition-colors"
-          >
-            Start a project
-            <span aria-hidden="true">→</span>
-          </a>
-          <a
-            href="mailto:press@timezoneus.com"
-            className="tag inline-flex items-center gap-2 border border-white/30 px-5 py-3 hover:border-[var(--color-brass)] hover:text-[var(--color-brass)] transition-colors"
-          >
-            Press inquiry
-          </a>
-          <a
-            href="/products"
-            className="tag inline-flex items-center gap-2 border border-white/30 px-5 py-3 hover:border-[var(--color-brass)] hover:text-[var(--color-brass)] transition-colors"
-          >
-            Browse 505 products
-          </a>
-        </div>
-
-        {/* Social + meta */}
-        <div className="mt-20 md:mt-28 grid md:grid-cols-12 gap-6 items-end">
-          <div className="md:col-span-5">
-            <div className="tag text-white/40 mb-3">Follow along</div>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 tag text-base">
-              <a href="#" className="link-underline hover:text-[var(--color-brass)] transition-colors">
-                Instagram
+            {/* Quick CTA cluster */}
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a
+                href="mailto:press@timezoneus.com"
+                className="tag inline-flex items-center gap-2 border border-white/30 px-5 py-3 hover:border-[var(--color-brass)] hover:text-[var(--color-brass)] transition-colors"
+              >
+                Press inquiry
               </a>
-              <a href="#" className="link-underline hover:text-[var(--color-brass)] transition-colors">
-                LinkedIn
-              </a>
-              <a href="#" className="link-underline hover:text-[var(--color-brass)] transition-colors">
-                Pinterest
-              </a>
-              <a href="#" className="link-underline hover:text-[var(--color-brass)] transition-colors">
-                YouTube
+              <a
+                href="/products"
+                className="tag inline-flex items-center gap-2 border border-white/30 px-5 py-3 hover:border-[var(--color-brass)] hover:text-[var(--color-brass)] transition-colors"
+              >
+                Browse 505 products
               </a>
             </div>
           </div>
-          <div className="md:col-span-7 md:text-right">
-            <div className="tag text-white/40">
-              ✦ Est. 1991 · Made in the USA.
-            </div>
+
+          <ContactForm />
+        </div>
+
+        {/* Meta */}
+        <div className="mt-20 md:mt-28">
+          <div className="tag text-white/40">
+            ✦ Est. 1991 · Made in the USA.
           </div>
         </div>
 

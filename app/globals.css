@@ -5,10 +5,10 @@
   --color-bone-deep: #0e0e0e;
   --color-ink: #ffffff;
   --color-ink-soft: #ebebeb;
-  /* Accent — sampled from the TimeZone logo (light sky blue).
+  /* Accent — peacock green.
      Kept the "brass" variable name so existing usages resolve unchanged. */
-  --color-brass: #7fc4d4;
-  --color-brass-bright: #a3d9e6;
+  --color-brass: #0fa891;
+  --color-brass-bright: #3ad1bc;
   --color-rust: #e26a4c;
   --color-stone: #a8a297;
 
@@ -440,7 +440,9 @@ details[open] .faq-plus::before { content: "−"; }
 /* ─── Category card custom cursor ──────────────────────────────────────────
    The hovered category swaps the pointer for its illustrated icon. The icon is
    a single fixed element that follows the mouse (positioned in JS); these rules
-   only handle its look and the show/hide + native-cursor-hiding on hover. */
+   only handle its look and the show/hide + native-cursor-hiding on hover.
+   It is portalled to <body>, so it is NOT a descendant of .cc-root — keep the
+   visibility selector off the root or the icon will never appear. */
 .cc-cursor {
   position: fixed;
   top: 0;
@@ -462,7 +464,7 @@ details[open] .faq-plus::before { content: "−"; }
   object-fit: contain;
   user-select: none;
 }
-.cc-root.cc-on .cc-cursor {
+.cc-cursor.cc-on {
   opacity: 1;
   scale: 1;
 }

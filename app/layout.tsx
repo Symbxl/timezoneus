@@ -28,6 +28,11 @@ export const metadata: Metadata = {
       "Custom promotional watches, engineered for brands that take time seriously.",
     type: "website",
   },
+  icons: {
+    icon: "/logo-icon.png",
+    shortcut: "/logo-icon.png",
+    apple: "/logo-icon.png",
+  },
 };
 
 export default function RootLayout({

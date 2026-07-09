@@ -84,8 +84,8 @@ function Logo() {
     <Image
       src="/logo.png"
       alt="Time Zone — Made to Order Promo Since 1976"
-      width={240}
-      height={116}
+      width={199}
+      height={119}
       priority
       className="h-[52px] md:h-[88px] w-auto translate-y-1.5 md:translate-y-2"
     />
