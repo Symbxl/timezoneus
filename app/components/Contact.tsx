@@ -101,13 +101,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Meta */}
-        <div className="mt-20 md:mt-28">
-          <div className="tag text-white/40">
-            ✦ Est. 1991 · Made in the USA.
-          </div>
-        </div>
-
         {/* Legal */}
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row gap-2 md:gap-6 tag text-white/40">
           <span>© {new Date().getFullYear()} Time Zone US, Inc.</span>
