@@ -82,7 +82,7 @@ const RIGHT_MENUS = MENUS.filter((m) => m.align === "right");
 function Logo() {
   return (
     <Image
-      src="/logo.png"
+      src="/logo-transparent.png"
       alt="Time Zone — Made to Order Promo Since 1976"
       width={199}
       height={119}
