@@ -31,9 +31,10 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    ".next-verify/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next-verify/types/**/*.ts"
+    "/private/tmp/claude-501/-Users-symbol-Desktop-alot-timezone-us/13c02319-6354-4f05-b1fd-26b3f6ef4ffc/scratchpad/next-iso/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

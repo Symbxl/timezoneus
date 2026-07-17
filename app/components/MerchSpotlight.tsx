@@ -10,10 +10,10 @@ const HEADLINE_LINE_1 = ["We", "make", "the"];
 const HEADLINE_LINE_2 = ["merch", "you", "want."];
 
 const CUSTOM_SOURCING_SLIDES = [
-  "/custom-sourcing.webp",
-  "/custom-slide-two.webp",
-  "/custom-slide-three.webp",
-  "/custom-slide-four.webp",
+  "/1tz.png",
+  "/2tz.png",
+  "/3tz.png",
+  "/4tz.png",
 ];
 const SLIDE_DURATION_MS = 4500;
 

@@ -479,3 +479,16 @@ details[open] .faq-plus::before { content: "−"; }
 @media (prefers-reduced-motion: reduce) {
   .cc-cursor { transition: opacity 0.18s ease; scale: 1; }
 }
+
+/* Chrome repaints autofilled controls with its own opaque light background,
+   which would flash white over the footer's transparent fields. background-color
+   is ignored on autofill, so an inset shadow is the only way to override it. */
+#contact input:-webkit-autofill,
+#contact input:-webkit-autofill:hover,
+#contact input:-webkit-autofill:focus,
+#contact textarea:-webkit-autofill,
+#contact select:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-ink);
+  -webkit-box-shadow: 0 0 0 100px var(--color-bone) inset;
+  caret-color: var(--color-ink);
+}

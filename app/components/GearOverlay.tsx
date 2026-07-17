@@ -166,7 +166,7 @@ export default function GearOverlay() {
       className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
     >
       <div
-        className="w-[min(74vw,1000px)] transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+        className="w-[min(56vw,760px)] transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
         style={{
           opacity: inView ? 1 : 0,
           transform: inView ? "scale(1) rotate(0deg)" : "scale(0.55) rotate(-35deg)",

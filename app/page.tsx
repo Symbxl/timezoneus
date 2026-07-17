@@ -14,8 +14,8 @@ export default function Home() {
       <Nav />
       <HeroSpotlight />
       <MerchSpotlight />
-      <ProductCategories />
       <GearGallery />
+      <ProductCategories />
       <FAQ />
       <Contact />
     </main>

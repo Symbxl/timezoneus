@@ -115,6 +115,14 @@ const categories: Category[] = [
     cursor: "/cursors/14.png",
   },
   {
+    num: "15",
+    title: "For Her",
+    sub: "Curated picks for every occasion",
+    href: "/products",
+    img: "/categories/15-for-her.webp",
+    cursor: "/cursors/15.png",
+  },
+  {
     num: "16",
     tall: true,
     title: "Cannabis Packaging & Merch",
@@ -122,14 +130,6 @@ const categories: Category[] = [
     href: "/products?category=cannabis",
     img: "/categories/16-cannabis.webp",
     cursor: "/cursors/16.png",
-  },
-  {
-    num: "15",
-    title: "For Her",
-    sub: "Curated picks for every occasion",
-    href: "/products",
-    img: "/categories/15-for-her.webp",
-    cursor: "/cursors/15.png",
   },
 ];
 

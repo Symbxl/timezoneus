@@ -87,7 +87,7 @@ function Logo() {
       width={199}
       height={119}
       priority
-      className="h-[52px] md:h-[88px] w-auto translate-y-1.5 md:translate-y-2"
+      className="h-[52px] md:h-[88px] xl:h-[108px] w-auto translate-y-1.5 md:translate-y-2"
     />
   );
 }
