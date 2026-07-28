@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
 const HEADLINE_LINE_1 = ["We", "make", "the"];
 const HEADLINE_LINE_2 = ["merch", "you", "want."];
 
+// Slides are 1376 × 768 (43:24). The banner box uses that same ratio on md+ so
+// the photos sit in it uncropped, at their true proportions.
 const CUSTOM_SOURCING_SLIDES = [
   "/1tz.png",
   "/2tz.png",
@@ -90,7 +92,7 @@ export default function MerchSpotlight() {
         <a
           href="#custom-sourcing"
           aria-label="Custom Sourcing — get merch your way"
-          className={`group relative block overflow-hidden rounded-2xl md:rounded-3xl border border-[var(--color-ink)]/15 aspect-[5/3] md:aspect-[21/9] bg-[var(--color-bone-deep)] transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
+          className={`group relative block overflow-hidden rounded-2xl md:rounded-3xl border border-[var(--color-ink)]/15 aspect-[5/3] md:aspect-[43/24] bg-[var(--color-bone-deep)] transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
             inView
               ? "opacity-100 translate-y-0 scale-100 blur-0"
               : "opacity-0 translate-y-20 scale-[0.94] blur-[10px]"

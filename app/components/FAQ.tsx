@@ -1,49 +1,57 @@
 type FAQ = {
   category: string;
   q: string;
-  a: string;
+  a: string[];
 };
 
 const faqs: FAQ[] = [
   {
     category: "Minimum order",
     q: "What's the minimum order?",
-    a: "MOQ starts at 100 units for most programs. For fully bespoke movements or rare cases, MOQ can climb. We're happy to scope smaller pilot runs to test reception before a full launch.",
+    a: [
+      "Our core items have item numbers and a minimum quantity shown in the price sheet. We can offer a less than minimum cost on many of these items — please contact us for pricing.",
+      "Our custom made items have varying minimum order quantities that we'll expand on an item by item basis or in your quote.",
+    ],
   },
   {
     category: "Timeline",
-    q: "How long does a typical project take?",
-    a: "From signed brief to delivered units, expect 12–18 weeks for a quartz program and 18–26 weeks for automatic. Prototypes typically land in 21 days. Rush is possible — ask.",
+    q: "How long does a typical order take?",
+    a: [
+      "Our core items show production time after the paper proof or pre-production samples are approved. These are times that are easy to hit and keep it stress free.",
+      "We offer rush service on most items — please ask us and we can advise on an order by order basis. Custom orders will vary by the item being made and are quoted based on a timeline for that item.",
+    ],
   },
   {
     category: "Color & finish",
     q: "Can you match an exact Pantone or brand color?",
-    a: "Yes. We dye dials, pad-print, and lacquer to spec. We'll send physical color proofs before pulling the trigger on production runs.",
+    a: [
+      "Yes. We understand the importance of adhering to brand guidelines, and your client's PMS color is just as important to us as it is to them.",
+      "We do have a PMS section, but please note most items can be PMS matched. Minimums will vary, as will production times.",
+    ],
   },
   {
-    category: "Warranty",
-    q: "Do you handle warranties and post-sale service?",
-    a: "Every watch ships with a 2-year warranty serviced through our in-house workshop. White-label warranty cards available — your brand, our hands.",
+    category: "Design & engineering",
+    q: "Can you design and engineer out-of-the-box merch?",
+    a: [
+      "This is where our team shines. We have a technical team of product experts with an understanding of manufacturing a full range of products.",
+      "Custom molds, woven fabrics, custom bags and totes are just the start of what our team knows from the ground up.",
+    ],
   },
   {
-    category: "Movements",
-    q: "Swiss-made or Japanese-made?",
-    a: "Both. We'll recommend a movement based on your price target, run size, complication needs, and the story you want to tell. There is no universally 'best' answer.",
+    category: "Fulfillment & kitting",
+    q: "Do you handle fulfillment and kitting?",
+    a: [
+      "China — after sourcing a single item or several, we can custom pack these for you. This ships in ready to go to the consumer or to the client's warehouse, at a reduced cost to the client and an increased profit to you.",
+      "In the US, we are able to kit and ship items we produce, and accept outside items into these kits.",
+    ],
   },
   {
-    category: "Pricing",
-    q: "What's the price range?",
-    a: "Programs range from ~$45/unit (private-label quartz, simple dial) to $1,200+/unit (Swiss automatic, sapphire, custom case). Most corporate programs land between $90 and $260 per unit landed.",
-  },
-  {
-    category: "Shipping",
-    q: "Can you deliver internationally?",
-    a: "Yes. We ship DDP to the US, Canada, EU, UK, and most APAC. Customs and duties handled by us — your team gets clean delivery.",
-  },
-  {
-    category: "Onboarding",
-    q: "When can we start?",
-    a: "Today. Send a quick brief — brand, intended use, budget range, target launch date — and we'll come back within 48 hours with a first-pass quote and timeline.",
+    category: "Drop shipping",
+    q: "Can you drop ship?",
+    a: [
+      "One address or one thousand, we will work to get this done as economically as possible. We do charge a fee for this, so please ask for a quote if this is required.",
+      "Prices will vary based on the number of drop ships and the number of items to each address.",
+    ],
   },
 ];
 
@@ -124,10 +132,15 @@ export default function FAQ() {
 
                     {/* Answer */}
                     <div className="px-3 md:px-5 pb-7 md:pb-9 -mt-1">
-                      <div className="ml-15 md:ml-[60px] max-w-[60ch] border-l border-[var(--color-brass)] pl-5 md:pl-6">
-                        <p className="text-base md:text-lg leading-relaxed text-[var(--color-stone)]">
-                          {f.a}
-                        </p>
+                      <div className="ml-15 md:ml-[60px] max-w-[60ch] border-l border-[var(--color-brass)] pl-5 md:pl-6 space-y-4">
+                        {f.a.map((para, j) => (
+                          <p
+                            key={j}
+                            className="text-base md:text-lg leading-relaxed text-[var(--color-stone)]"
+                          >
+                            {para}
+                          </p>
+                        ))}
                       </div>
                     </div>
 

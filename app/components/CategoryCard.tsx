@@ -7,26 +7,23 @@ export type Category = {
   href: string;
   img: string;
   wide?: boolean;
-  tall?: boolean;
   /** Illustrated icon shown as the mouse cursor while hovering this card. */
   cursor?: string;
 };
 
 export default function CategoryCard({ category }: { category: Category }) {
-  const { num, title, sub, href, img, wide, tall, cursor } = category;
-  const isFeature = wide || tall;
+  const { num, title, sub, href, img, wide, cursor } = category;
+  const isFeature = !!wide;
 
-  const spanClass = wide ? "sm:col-span-2" : tall ? "sm:row-span-2" : "";
-  const aspectClass = tall
-    ? "aspect-[5/8] md:aspect-auto md:min-h-[640px]"
-    : wide
-      ? "aspect-[16/9]"
-      : "aspect-[5/4]";
+  const spanClass = wide ? "sm:col-span-2" : "";
 
   return (
     <a href={href} data-cursor={cursor} className={`group block ${spanClass}`}>
+      {/* Box matches the photos' intrinsic 1376 × 768 (43:24) ratio so every
+          category image shows in full, at its true proportions — no crop, no
+          upscale. Feature cards span two columns; they keep the same ratio. */}
       <div
-        className={`relative overflow-hidden rounded-3xl bg-[var(--color-bone)] border border-[var(--color-ink)]/15 group-hover:border-[var(--color-brass)]/60 transition-colors ${aspectClass}`}
+        className="relative aspect-[43/24] overflow-hidden rounded-3xl bg-[var(--color-bone)] border border-[var(--color-ink)]/15 group-hover:border-[var(--color-brass)]/60 transition-colors"
       >
         {/* Category photo fills the box edge-to-edge. Served straight from
             /public (unoptimized) — the files are already small WebPs, and this
@@ -50,7 +47,7 @@ export default function CategoryCard({ category }: { category: Category }) {
           className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/35 to-transparent pointer-events-none"
         />
 
-        {/* Corner tag: number, or a "Featured" flag for the wide/tall cards */}
+        {/* Corner tag: number, or a "Featured" flag for the wide cards */}
         <div className="absolute top-5 left-5 right-5 md:top-7 md:left-7 md:right-7 flex items-start justify-between gap-3">
           {num ? (
             <span className="tag text-white/90">

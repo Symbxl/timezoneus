@@ -69,7 +69,6 @@ const MENUS: Menu[] = [
     align: "right",
     items: [
       { label: "About / General Info", href: "/general-info" },
-      { label: "Custom Sourcing", href: "#custom-sourcing" },
       { label: "Custom Packaging", href: "#custom-packaging" },
       { label: "Contact", href: "/#contact" },
     ],
