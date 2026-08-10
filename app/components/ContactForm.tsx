@@ -73,8 +73,8 @@ export default function ContactForm() {
 
     const details = [
       `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      form.company && `Company: ${form.company}`,
+      `Current supplier email: ${form.email}`,
+      form.company && `Current supplier (company & phone): ${form.company}`,
       `Topic: ${form.topic}`,
     ].filter(Boolean);
 
@@ -137,24 +137,35 @@ export default function ContactForm() {
           />
         </Field>
 
-        <Field number="02" label="Email" required error={errors.email}>
+        <Field
+          number="02"
+          label="Email"
+          required
+          hint="Email of the person you normally buy your branded merch from."
+          error={errors.email}
+        >
           <input
             type="email"
             value={form.email}
             onChange={(e) => update("email", e.target.value)}
-            autoComplete="email"
-            placeholder="you@company.com"
+            autoComplete="off"
+            placeholder="name@supplier.com"
             className={CONTROL_CLASS}
           />
         </Field>
 
-        <Field number="03" label="Company" error={errors.company}>
+        <Field
+          number="03"
+          label="Company"
+          hint="Company and contact number of the company you normally buy merch from."
+          error={errors.company}
+        >
           <input
             type="text"
             value={form.company}
             onChange={(e) => update("company", e.target.value)}
-            autoComplete="organization"
-            placeholder="Optional"
+            autoComplete="off"
+            placeholder="Company name & phone"
             className={CONTROL_CLASS}
           />
         </Field>
@@ -223,6 +234,7 @@ function Field({
   number,
   label,
   required,
+  hint,
   error,
   alignTop,
   children,
@@ -230,12 +242,16 @@ function Field({
   number: string;
   label: string;
   required?: boolean;
+  hint?: string;
   error?: string;
   alignTop?: boolean;
   children: ReactNode;
 }) {
   const id = useId();
   const errorId = `${id}-error`;
+  const hintId = `${id}-hint`;
+  const describedBy =
+    [error && errorId, hint && hintId].filter(Boolean).join(" ") || undefined;
 
   // Ties the error to the control (aria-invalid + aria-describedby) so call
   // sites can keep passing a plain <input>/<select>/<textarea>. The `!` on the
@@ -245,7 +261,7 @@ function Field({
     ? cloneElement(children as ReactElement<Record<string, unknown>>, {
         id,
         "aria-invalid": error ? true : undefined,
-        "aria-describedby": error ? errorId : undefined,
+        "aria-describedby": describedBy,
         className: error
           ? `${(children.props as { className?: string }).className ?? ""} !border-[var(--color-rust)]`
           : (children.props as { className?: string }).className,
@@ -299,6 +315,14 @@ function Field({
         {error && (
           <span id={errorId} className="mt-2 block text-xs text-[var(--color-rust)]">
             {error}
+          </span>
+        )}
+        {hint && (
+          <span
+            id={hintId}
+            className="mt-2 block text-xs text-[var(--color-stone)]"
+          >
+            {hint}
           </span>
         )}
       </div>

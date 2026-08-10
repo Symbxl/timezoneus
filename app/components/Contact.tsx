@@ -44,11 +44,6 @@ export default function Contact() {
             <dl className="mt-5 border-t border-[var(--color-ink)]/15">
               {[
                 {
-                  term: "General",
-                  value: "hello@timezoneus.com",
-                  href: "mailto:hello@timezoneus.com",
-                },
-                {
                   term: "Catalog",
                   value: "Request a copy",
                   href: "/order-catalog",

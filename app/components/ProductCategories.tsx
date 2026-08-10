@@ -28,7 +28,7 @@ const categories: Category[] = [
   },
   {
     num: "04",
-    title: "Bauble Blink",
+    title: "Baubles and Bling",
     sub: "Make your merch shine",
     href: "/products",
     img: "/categories/04-baubles.webp",
